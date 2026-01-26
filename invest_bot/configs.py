@@ -1,0 +1,1 @@
+TINKOFF_TOKEN = "t.fYJsrtqZjU9vN1WDJPAkBPFcZA9vYSHq9yblqmn05v2wny_fYG_ZKeWVrimUtHAqo1KOLDzaTyouoNKQ76eaJg"
