@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="спрятал токен">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="gitignore">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/configs.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/configs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/core/invest.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/invest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,12 +22,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/GeberID/pythonInvestBot.git",
-    "accountId": "c519c035-c7cb-4d48-b88b-1bde8498a060"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;GeberID&quot;
   }
-}]]></component>
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/GeberID/pythonInvestBot.git&quot;,
+    &quot;accountId&quot;: &quot;c519c035-c7cb-4d48-b88b-1bde8498a060&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/.venv/Lib/site-packages/t_tech/invest/services.py" root0="SKIP_INSPECTION" />
   </component>
@@ -117,7 +125,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769461187263</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="gitignore">
+      <option name="closed" value="true" />
+      <created>1769461339095</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1769461339095</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -135,6 +151,18 @@
     <MESSAGE value="firs commit" />
     <MESSAGE value="первое получение данных о счете" />
     <MESSAGE value="спрятал токен" />
-    <option name="LAST_COMMIT_MESSAGE" value="спрятал токен" />
+    <MESSAGE value="gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/invest_bot/core/invest.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
