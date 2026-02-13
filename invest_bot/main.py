@@ -5,8 +5,12 @@ from invest_bot.core.invest import Portfolio
 def main():
     account_id = api.get_accounts().accounts[0].id
     portfolio = Portfolio(api.get_portfolio(account_id))
-    print(portfolio.print_common_portfolio_info())
-    print(portfolio.print_portfolio_structure())
+    print(portfolio.print_common_portfolio_info_str())
+    print("\n")
+    print(portfolio.print_portfolio_structure_str())
+    print("\n")
+    # print(portfolio.get_instrument_money(portfolio._all_shares_positions, "YDEX"))
+
 
 if __name__ == "__main__":
     main()
