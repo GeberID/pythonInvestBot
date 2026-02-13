@@ -61,7 +61,7 @@ class Portfolio:
         )
 
     @trace
-    def print_structure_str(self) -> str:
+    def print_persent_structure_str(self) -> str:
         all_portfolio = self._all_portfolio_money()
         return (
             f"Процентное соотношение:\n"
@@ -72,11 +72,6 @@ class Portfolio:
         )
 
     @trace
-    def _update_free_money(self) -> Decimal:
-        free_money = [element for element in self._all_currency_positions if element.ticker == RUB_TICKER][0].quantity
-        return get_money(free_money)
-
-    @trace
     def get_instrument_money(self, positions: list[PortfolioPosition], ticker: str) -> Decimal:
         for position in positions:
             if position.ticker == ticker:
@@ -84,6 +79,11 @@ class Portfolio:
                 quantity = get_money(position.quantity)
                 return round(current_price * quantity, 2)
         return Decimal(-1)
+
+    @trace
+    def _update_free_money(self) -> Decimal:
+        free_money = [element for element in self._all_currency_positions if element.ticker == RUB_TICKER][0].quantity
+        return get_money(free_money)
 
     @trace
     def _get_all_positions(self, instrument_type: InstrumentType) -> list[PortfolioPosition]:

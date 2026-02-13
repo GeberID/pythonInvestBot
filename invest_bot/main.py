@@ -7,7 +7,7 @@ def main():
     portfolio = Portfolio(api.get_portfolio(account_id))
     print(portfolio.print_common_info_str())
     print("\n")
-    print(portfolio.print_structure_str())
+    print(portfolio.print_persent_structure_str())
     print("\n")
     # print(portfolio.get_instrument_money(portfolio._all_shares_positions, "YDEX"))
 
