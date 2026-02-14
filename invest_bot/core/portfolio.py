@@ -78,7 +78,7 @@ class Portfolio:
             if position.ticker == ticker:
                 current_price = get_money(position.current_price)
                 quantity = get_money(position.quantity)
-                return round(current_price * quantity, 2)
+                return current_price * quantity
         return Decimal(-1)
 
     @trace
