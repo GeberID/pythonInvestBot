@@ -52,12 +52,13 @@ class Portfolio:
     def print_common_info_str(self) -> str:
         return (
             f"Портфолио:\n"
-            f"Акции - {self._shares_amt}\n"
-            f"Облигации - {self._bonds_amt}\n"
-            f"Фонды - {self._etf_amt}\n"
-            f"Валюта и драгметалы - {self._currencies_amt - self._free_money}\n"
-            f"Свободной валюты - {self._free_money}\n"
-            f"Всего - {self._all_portfolio_money()}"
+            f"Акции - {self._shares_amt:,.2f} ₽\n"
+            f"Облигации - {self._bonds_amt:,.2f} ₽\n"
+            f"Фонды - {self._etf_amt:,.2f} ₽\n"
+            f"Валюта и драгметалы - {self._currencies_amt - self._free_money:,.2f} ₽\n"
+            f"Свободной валюты - {self._free_money:,.2f} ₽\n"
+            f"------------------------------\n"
+            f"Всего - {self._all_portfolio_money():,.2f} ₽"
         )
 
     @trace

@@ -24,7 +24,7 @@ async def command_start_handler(message: Message) -> None:
 @dp.message(Command("portfolio"))
 async def command_portfolio_handler(message: Message, account_id: str) -> None:
     portfolio = Portfolio(await api.get_portfolio(account_id))
-    await message.answer(f",,{portfolio.print_common_info_str()}\n\n" + f"{portfolio.print_persent_structure_str()}")
+    await message.answer(f"{portfolio.print_common_info_str()}\n\n" + f"{portfolio.print_persent_structure_str()}")
 
 
 async def main():
