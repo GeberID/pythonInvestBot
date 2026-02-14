@@ -87,7 +87,7 @@ class Portfolio:
 
     @trace
     def _get_all_positions(self, instrument_type: InstrumentType) -> list[PortfolioPosition]:
-        return [element for element in self._portfolio.positions if element.instrument_type == instrument_type.value]
+        return [p for p in self._portfolio.positions if p.instrument_type == instrument_type.value]
 
     @trace
     def _get_all_currencies_positions(self) -> list[PortfolioPosition]:

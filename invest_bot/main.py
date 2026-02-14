@@ -1,16 +1,40 @@
+import asyncio
+import logging
+import sys
+
+import dp
+from aiogram import Bot, Dispatcher, html
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+from aiogram.filters import CommandStart, Command
+from aiogram.types import Message
+
 import api.tinkoff_api as api
+from invest_bot.configs import TELEGRAM_TOKEN
 from invest_bot.core.portfolio import Portfolio
 
+dp = Dispatcher()
 
-def main():
-    account_id = api.get_accounts().accounts[0].id
-    portfolio = Portfolio(api.get_portfolio(account_id))
-    print(portfolio.print_common_info_str())
-    print("\n")
-    print(portfolio.print_persent_structure_str())
-    print("\n")
+
+@dp.message(CommandStart())
+async def command_start_handler(message: Message) -> None:
+    await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!")
+
+
+@dp.message(Command("portfolio"))
+async def command_portfolio_handler(message: Message, account_id: str) -> None:
+    portfolio = Portfolio(await api.get_portfolio(account_id))
+    await message.answer(f",,{portfolio.print_common_info_str()}\n\n" + f"{portfolio.print_persent_structure_str()}")
+
+
+async def main():
+    accounts_response = await api.get_accounts()
+    account_id = accounts_response.accounts[0].id
+    bot = Bot(token=TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    await dp.start_polling(bot, account_id=account_id)
     # print(portfolio.get_instrument_money(portfolio._all_shares_positions, "YDEX"))
 
 
 if __name__ == "__main__":
-    main()
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    asyncio.run(main())
