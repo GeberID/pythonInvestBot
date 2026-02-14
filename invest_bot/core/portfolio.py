@@ -73,6 +73,26 @@ class Portfolio:
         )
 
     @trace
+    def print_all_shares(self):
+        shares_data = [
+            (position.ticker, get_money(position.current_price) * get_money(position.quantity))
+            for position in self._all_shares_positions
+        ]
+        shares_data.sort(key=lambda x: x[1], reverse=True)
+        lines = [f"<code>{t:<6}</code> — {amt:,.2f} ₽" for t, amt in shares_data]
+        return "Акции\n" + "\n".join(lines)
+
+    @trace
+    def print_all_bonds(self):
+        bonds_data = [
+            (position.ticker, get_money(position.current_price) * get_money(position.quantity), position.current_nkd)
+            for position in self._all_bonds_positions
+        ]
+        bonds_data.sort(key=lambda x: x[1], reverse=True)
+        lines = [f"<code>{t:<6}</code> — {amt:,.2f} ₽ - Нкд: {get_money(nkd):,.2f}" for t, amt, nkd in bonds_data]
+        return "Облигации\n" + "\n".join(lines)
+
+    @trace
     def get_instrument_money(self, positions: list[PortfolioPosition], ticker: str) -> Decimal:
         for position in positions:
             if position.ticker == ticker:

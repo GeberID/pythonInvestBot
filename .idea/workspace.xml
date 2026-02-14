@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="first bot version">
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="fix round">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/core/portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/portfolio.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/main.py" afterDir="false" />
@@ -171,7 +171,23 @@
       <option name="project" value="LOCAL" />
       <updated>1771101713960</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="mini fix">
+      <option name="closed" value="true" />
+      <created>1771101987263</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1771101987263</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix round">
+      <option name="closed" value="true" />
+      <created>1771102148079</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1771102148079</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -206,7 +222,9 @@
     <MESSAGE value="add trace and fixes" />
     <MESSAGE value="refactoring" />
     <MESSAGE value="first bot version" />
-    <option name="LAST_COMMIT_MESSAGE" value="first bot version" />
+    <MESSAGE value="mini fix" />
+    <MESSAGE value="fix round" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix round" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
