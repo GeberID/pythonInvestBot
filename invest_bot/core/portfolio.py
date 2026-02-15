@@ -7,6 +7,7 @@ from invest_bot.core.decorators import trace
 from invest_bot.core.money_utilities import get_money, get_percentage_from_element
 
 RUB_TICKER = "RUB000UTSTOM"
+ETF_CORE_TICKER = "EQMX"
 
 
 class InstrumentType(Enum):
@@ -28,8 +29,9 @@ class Portfolio:
 
     _shares_amt: Decimal
     _bonds_amt: Decimal
-    _etf_amt: Decimal
-    _currencies_amt: Decimal
+    _other_etf_amt: Decimal
+    _etf_core_shares_amt: Decimal
+    _all_currencies_amt: Decimal
 
     def __init__(self, portfolio: PortfolioResponse):
         self._portfolio = portfolio
@@ -42,8 +44,9 @@ class Portfolio:
 
         self._shares_amt = get_money(portfolio.total_amount_shares)
         self._bonds_amt = get_money(portfolio.total_amount_bonds)
-        self._etf_amt = get_money(portfolio.total_amount_etf)
-        self._currencies_amt = get_money(portfolio.total_amount_currencies)
+        self._etf_core_shares_amt = self.get_instrument_money(self._all_etfs_positions, ETF_CORE_TICKER)
+        self._other_etf_amt = get_money(portfolio.total_amount_etf) - self._etf_core_shares_amt
+        self._all_currencies_amt = get_money(portfolio.total_amount_currencies)
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
@@ -54,8 +57,9 @@ class Portfolio:
             f"Портфолио:\n"
             f"Акции - {self._shares_amt:,.2f} ₽\n"
             f"Облигации - {self._bonds_amt:,.2f} ₽\n"
-            f"Фонды - {self._etf_amt:,.2f} ₽\n"
-            f"Валюта и драгметалы - {self._currencies_amt - self._free_money:,.2f} ₽\n"
+            f"Фонд акций - {self._etf_core_shares_amt:,.2f} ₽\n"
+            f"Остальные фонды - {self._other_etf_amt:,.2f} ₽\n"
+            f"Валюта и драгметалы - {self._all_currencies_amt - self._free_money:,.2f} ₽\n"
             f"Свободной валюты - {self._free_money:,.2f} ₽\n"
             f"------------------------------\n"
             f"Всего - {self._all_portfolio_money():,.2f} ₽"
@@ -68,8 +72,9 @@ class Portfolio:
             f"Процентное соотношение:\n"
             f"Акции - {get_percentage_from_element(self._shares_amt,all_portfolio)}\n"
             f"Облигации - {get_percentage_from_element(self._bonds_amt,all_portfolio)}\n"
-            f"Фонды - {get_percentage_from_element(self._etf_amt,all_portfolio)}\n"
-            f"Валюта и драгметалы - {get_percentage_from_element(self._currencies_amt,all_portfolio)}\n"
+            f"Фонд акций - {get_percentage_from_element(self._etf_core_shares_amt, all_portfolio)}\n"
+            f"Остальные фонды - {get_percentage_from_element(self._other_etf_amt, all_portfolio)}\n"
+            f"Валюта и драгметалы - {get_percentage_from_element(self._all_currencies_amt, all_portfolio)}\n"
         )
 
     @trace
@@ -79,8 +84,8 @@ class Portfolio:
             for position in self._all_shares_positions
         ]
         shares_data.sort(key=lambda x: x[1], reverse=True)
-        lines = [f"<code>{t:<6}</code> — {amt:,.2f} ₽" for t, amt in shares_data]
-        return "Акции\n" + "\n".join(lines)
+        lines = [f"<code>{t:<12}</code> | {amt:,.2f} ₽" for t, amt in shares_data]
+        return "<b>Акции</b>\n" + "\n".join(lines)
 
     @trace
     def print_all_bonds(self):
@@ -89,8 +94,13 @@ class Portfolio:
             for position in self._all_bonds_positions
         ]
         bonds_data.sort(key=lambda x: x[1], reverse=True)
-        lines = [f"<code>{t:<6}</code> — {amt:,.2f} ₽ - Нкд: {get_money(nkd):,.2f}" for t, amt, nkd in bonds_data]
-        return "Облигации\n" + "\n".join(lines)
+        lines = [f"<code>{t:12}</code> | {amt:>9,.0f} ₽ | {get_money(nkd):>6.2f} ₽" for t, amt, nkd in bonds_data]
+        header = (
+            "<b>Облигации</b>\n"
+            "<code>ISIN         |  СУММА   |  НКД  </code>\n"
+            "<code>-------------|----------|-------</code>"
+        )
+        return header + "\n" + "\n".join(lines)
 
     @trace
     def get_instrument_money(self, positions: list[PortfolioPosition], ticker: str) -> Decimal:

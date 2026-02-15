@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="fix round">
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="add print_all_shares, print_all_bonds">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/core/portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/portfolio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +186,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771102148079</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="add print_all_shares, print_all_bonds">
+      <option name="closed" value="true" />
+      <created>1771103849805</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1771103849805</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -224,9 +231,19 @@
     <MESSAGE value="first bot version" />
     <MESSAGE value="mini fix" />
     <MESSAGE value="fix round" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix round" />
+    <MESSAGE value="add print_all_shares, print_all_bonds" />
+    <option name="LAST_COMMIT_MESSAGE" value="add print_all_shares, print_all_bonds" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/invest_bot/core/portfolio.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self._all_etfs_positions" />
