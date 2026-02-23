@@ -1,6 +1,4 @@
 import asyncio
-import logging
-import sys
 
 import dp
 from aiogram import Bot, Dispatcher, html
@@ -11,6 +9,8 @@ from aiogram.types import Message
 
 import api.tinkoff_api as api
 from invest_bot.configs import TELEGRAM_TOKEN
+
+from invest_bot.core.logs import create_logs_folder
 from invest_bot.core.portfolio import Portfolio
 
 dp = Dispatcher()
@@ -28,8 +28,8 @@ async def command_portfolio_handler(message: Message, account_id: str) -> None:
     await message.answer(f"{ portfolio.print_all_shares()}")
     await message.answer(f"{ portfolio.print_all_bonds()}")
 
-
 async def main():
+    create_logs_folder()
     accounts_response = await api.get_accounts()
     account_id = accounts_response.accounts[0].id
     bot = Bot(token=TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -38,5 +38,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
