@@ -1,15 +1,15 @@
-from t_tech.invest import PortfolioResponse, AsyncClient
+from t_tech.invest import PortfolioResponse, AsyncClient, Client
 
 from invest_bot.configs import TINKOFF_TOKEN
 
 
-async def get_accounts():
-    async with AsyncClient(token=TINKOFF_TOKEN) as client:
+def get_accounts():
+    with Client(token=TINKOFF_TOKEN) as client:
         accounts = client.users.get_accounts()
-        return await accounts
+        return accounts
 
 
-async def get_portfolio(account_id: str) -> PortfolioResponse:
-    async with AsyncClient(token=TINKOFF_TOKEN) as client:
+def get_portfolio(account_id: str) -> PortfolioResponse:
+    with Client(token=TINKOFF_TOKEN) as client:
         portfolio = client.operations.get_portfolio(account_id=account_id)
-        return await portfolio
+        return portfolio
