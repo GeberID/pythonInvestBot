@@ -1,9 +1,10 @@
 from decimal import Decimal
 from enum import Enum
 
-from t_tech.invest import PortfolioResponse, MoneyValue, PortfolioPosition
+from t_tech.invest import PortfolioResponse, PortfolioPosition
 
-from invest_bot.core.decorators import trace
+from invest_bot.api import tinkoff_api as api
+from invest_bot.core.logs import log
 from invest_bot.core.money_utilities import get_money, get_percentage_from_element
 
 RUB_TICKER = "RUB000UTSTOM"
@@ -16,85 +17,69 @@ class InstrumentType(Enum):
     ETF = "etf"
     CURRENCY = "currency"
 
-
 class Portfolio:
+    account_id: str
     _portfolio: PortfolioResponse
+    free_money: Decimal
+    positions: dict[InstrumentType, list[PortfolioPosition]]
+    positions_amt: dict[InstrumentType,Decimal]
 
-    _all_currency_positions: list[PortfolioPosition]
-    _all_shares_positions: list[PortfolioPosition]
-    _all_bonds_positions: list[PortfolioPosition]
-    _all_etfs_positions: list[PortfolioPosition]
-
-    _free_money: Decimal
-
-    _shares_amt: Decimal
-    _bonds_amt: Decimal
-    _other_etf_amt: Decimal
-    _etf_core_shares_amt: Decimal
-    _all_currencies_amt: Decimal
-
-    def __init__(self, portfolio: PortfolioResponse):
-        self._portfolio = portfolio
-
-        self._all_currency_positions = self._get_all_currencies_positions()
-        self._all_shares_positions = self._get_all_positions(InstrumentType.SHARE)
-        self._all_bonds_positions = self._get_all_positions(InstrumentType.BOND)
-        self._all_etfs_positions = self._get_all_positions(InstrumentType.ETF)
-        self._free_money = self._update_free_money()
-
-        self._shares_amt = get_money(portfolio.total_amount_shares)
-        self._bonds_amt = get_money(portfolio.total_amount_bonds)
-        self._etf_core_shares_amt = self.get_instrument_money(self._all_etfs_positions, ETF_CORE_TICKER)
-        self._other_etf_amt = get_money(portfolio.total_amount_etf) - self._etf_core_shares_amt
-        self._all_currencies_amt = get_money(portfolio.total_amount_currencies)
+    def __init__(self,account_id:str):
+        self.update_portfolio(account_id)
+        self.update_positions()
+        self.update_positions_amt()
+        self.update_free_money()
 
     def __repr__(self):
         return f"{self.__class__.__name__}"
 
-    @trace
+    @log
     def print_common_info_str(self) -> str:
         return (
             f"Портфолио:\n"
-            f"Акции - {self._shares_amt:,.2f} ₽\n"
-            f"Облигации - {self._bonds_amt:,.2f} ₽\n"
-            f"Фонд акций - {self._etf_core_shares_amt:,.2f} ₽\n"
-            f"Остальные фонды - {self._other_etf_amt:,.2f} ₽\n"
-            f"Валюта и драгметалы - {self._all_currencies_amt - self._free_money:,.2f} ₽\n"
-            f"Свободной валюты - {self._free_money:,.2f} ₽\n"
+            f"Акции - {self.positions_amt.get(InstrumentType.SHARE):,.2f} ₽\n"
+            f"Облигации - {self.positions_amt.get(InstrumentType.BOND):,.2f} ₽\n"
+            f"Фонды - {self.positions_amt.get(InstrumentType.ETF):,.2f} ₽\n"
+            f"Валюта и драгметалы - {self.positions_amt.get(InstrumentType.CURRENCY) - self.free_money:,.2f} ₽\n"
+            f"Свободной валюты - {self.free_money:,.2f} ₽\n"
             f"------------------------------\n"
             f"Всего - {self._all_portfolio_money():,.2f} ₽"
         )
 
-    @trace
+    @log
     def print_persent_structure_str(self) -> str:
         all_portfolio = self._all_portfolio_money()
         return (
             f"Процентное соотношение:\n"
-            f"Акции - {get_percentage_from_element(self._shares_amt,all_portfolio)}\n"
-            f"Облигации - {get_percentage_from_element(self._bonds_amt,all_portfolio)}\n"
-            f"Фонд акций - {get_percentage_from_element(self._etf_core_shares_amt, all_portfolio)}\n"
-            f"Остальные фонды - {get_percentage_from_element(self._other_etf_amt, all_portfolio)}\n"
-            f"Валюта и драгметалы - {get_percentage_from_element(self._all_currencies_amt, all_portfolio)}\n"
+            f"Акции - {get_percentage_from_element(self.positions_amt.get(InstrumentType.SHARE), all_portfolio)}\n"
+            f"Облигации - {get_percentage_from_element(self.positions_amt.get(InstrumentType.BOND), all_portfolio)}\n"
+            f"Фонды - {get_percentage_from_element(self.positions_amt.get(InstrumentType.ETF), all_portfolio)}\n"
+            f"Валюта и драгметалы - {get_percentage_from_element(self.positions_amt.get(InstrumentType.CURRENCY), all_portfolio)}\n"
         )
 
-    @trace
+    @log
     def print_all_shares(self):
         shares_data = [
-            (position.ticker, get_money(position.current_price) * get_money(position.quantity))
-            for position in self._all_shares_positions
+            (position.ticker,
+             get_money(position.current_price) * get_money(position.quantity),
+             position.daily_yield)
+            for position in self.positions.get(InstrumentType.SHARE)
         ]
         shares_data.sort(key=lambda x: x[1], reverse=True)
-        lines = [f"<code>{t:<12}</code> | {amt:,.2f} ₽" for t, amt in shares_data]
+        lines = [f"<code>{t:<12}</code> | {amt:,.2f} ₽" for t, amt, daily_yield in shares_data]
         return "<b>Акции</b>\n" + "\n".join(lines)
 
-    @trace
+    @log
     def print_all_bonds(self):
         bonds_data = [
-            (position.ticker, get_money(position.current_price) * get_money(position.quantity), position.current_nkd)
-            for position in self._all_bonds_positions
+            (position.ticker,
+             get_money(position.current_price) * get_money(position.quantity),
+             position.current_nkd,
+             position.daily_yield)
+            for position in self.positions.get(InstrumentType.BOND)
         ]
         bonds_data.sort(key=lambda x: x[1], reverse=True)
-        lines = [f"<code>{t:12}</code> | {amt:>9,.0f} ₽ | {get_money(nkd):>6.2f} ₽" for t, amt, nkd in bonds_data]
+        lines = [f"<code>{t:12}</code> | {amt:>9,.0f} ₽ | {get_money(nkd):>6.2f} ₽" for t, amt, nkd, daily_yield in bonds_data]
         header = (
             "<b>Облигации</b>\n"
             "<code>ISIN         |  СУММА   |  НКД  </code>\n"
@@ -102,7 +87,7 @@ class Portfolio:
         )
         return header + "\n" + "\n".join(lines)
 
-    @trace
+    @log
     def get_instrument_money(self, positions: list[PortfolioPosition], ticker: str) -> Decimal:
         for position in positions:
             if position.ticker == ticker:
@@ -111,20 +96,39 @@ class Portfolio:
                 return current_price * quantity
         return Decimal(-1)
 
-    @trace
-    def _update_free_money(self) -> Decimal:
-        free_money = [element for element in self._all_currency_positions if element.ticker == RUB_TICKER][0].quantity
-        return get_money(free_money)
+    @log
+    def update_free_money(self) -> None:
+        temp_free_money = [element for element in self.positions.get(InstrumentType.CURRENCY)
+                      if element.ticker == RUB_TICKER][0].quantity
+        self.free_money = get_money(temp_free_money)
 
-    @trace
-    def _get_all_positions(self, instrument_type: InstrumentType) -> list[PortfolioPosition]:
+    @log
+    def update_positions(self) -> None:
+        self.positions = {
+            InstrumentType.SHARE: self._get_positions(InstrumentType.SHARE),
+            InstrumentType.BOND: self._get_positions(InstrumentType.BOND),
+            InstrumentType.ETF: self._get_positions(InstrumentType.ETF),
+            InstrumentType.CURRENCY: self._get_positions(InstrumentType.CURRENCY),
+        }
+
+    @log
+    def update_positions_amt(self) -> None:
+        self.positions_amt = {
+            InstrumentType.SHARE: get_money(self._portfolio.total_amount_shares),
+            InstrumentType.BOND: get_money(self._portfolio.total_amount_bonds),
+            InstrumentType.ETF: get_money(self._portfolio.total_amount_etf),
+            InstrumentType.CURRENCY: get_money(self._portfolio.total_amount_currencies),
+        }
+
+    @log
+    async def update_portfolio(self) -> None:
+        self._portfolio = api.get_portfolio(self.account_id)
+
+    @log
+    def _get_positions(self, instrument_type: InstrumentType) -> list[PortfolioPosition]:
         return [p for p in self._portfolio.positions if p.instrument_type == instrument_type.value]
 
-    @trace
-    def _get_all_currencies_positions(self) -> list[PortfolioPosition]:
-        return self._get_all_positions(InstrumentType.CURRENCY)
-
-    @trace
+    @log
     def _all_portfolio_money(self) -> Decimal:
         return Decimal(
             (
