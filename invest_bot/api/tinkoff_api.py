@@ -1,11 +1,11 @@
-from t_tech.invest import PortfolioResponse, AsyncClient, Client
+from t_tech.invest import PortfolioResponse, Client, GetAccountsResponse
 
 from invest_bot.configs import TINKOFF_TOKEN
 from invest_bot.core.logs import log
 
 
 @log
-def get_accounts():
+def get_accounts() -> GetAccountsResponse:
     with Client(token=TINKOFF_TOKEN) as client:
         accounts = client.users.get_accounts()
         return accounts

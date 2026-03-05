@@ -21,9 +21,9 @@ class InstrumentType(Enum):
 class InvestPortfolio:
     account_id: str
     portfolio: PortfolioResponse
-    free_money: Decimal
     positions: dict[InstrumentType, list[PortfolioPosition]]
     positions_amt: dict[InstrumentType, Decimal]
+    free_money: Decimal
 
     def __init__(self, account_id: str):
         self.portfolio = api.get_portfolio(account_id)
@@ -46,12 +46,18 @@ class InvestPortfolio:
 
     @log
     def print_common_info_str(self) -> str:
+        shares = self.positions_amt.get(InstrumentType.SHARE)
+        bonds = self.positions_amt.get(InstrumentType.BOND)
+        currencies = self.positions_amt.get(InstrumentType.CURRENCY) - self.free_money
+        etf_shares = self.get_instrument_money(self.positions[InstrumentType.ETF], ETF_CORE_TICKER)
+        other_etf = self.positions_amt.get(InstrumentType.ETF) - etf_shares
         return (
             f"Портфолио:\n"
-            f"Акции - {self.positions_amt.get(InstrumentType.SHARE):,.2f} ₽\n"
-            f"Облигации - {self.positions_amt.get(InstrumentType.BOND):,.2f} ₽\n"
-            f"Фонды - {self.positions_amt.get(InstrumentType.ETF):,.2f} ₽\n"
-            f"Валюта и драгметалы - {self.positions_amt.get(InstrumentType.CURRENCY) - self.free_money:,.2f} ₽\n"
+            f"Акции - {shares:,.2f} ₽\n"
+            f"Облигации - {bonds:,.2f} ₽\n"
+            f"Фонды акций- {etf_shares:,.2f} ₽\n"
+            f"Остальные Фонды - {other_etf:,.2f} ₽\n"
+            f"Валюта и драгметалы - {currencies:,.2f} ₽\n"
             f"Свободной валюты - {self.free_money:,.2f} ₽\n"
             f"------------------------------\n"
             f"Всего - {self._all_portfolio_money():,.2f} ₽"
@@ -59,17 +65,17 @@ class InvestPortfolio:
 
     @log
     def print_persent_structure_str(self) -> str:
-        allportfolio = self._all_portfolio_money()
+        all_portfolio = self._all_portfolio_money()
         return (
             f"Процентное соотношение:\n"
-            f"Акции - {get_percentage_from_element(self.positions_amt.get(InstrumentType.SHARE), allportfolio)}\n"
-            f"Облигации - {get_percentage_from_element(self.positions_amt.get(InstrumentType.BOND), allportfolio)}\n"
-            f"Фонды - {get_percentage_from_element(self.positions_amt.get(InstrumentType.ETF), allportfolio)}\n"
-            f"Валюта и драгметалы - {get_percentage_from_element(self.positions_amt.get(InstrumentType.CURRENCY), allportfolio)}\n"
+            f"Акции - {get_percentage_from_element(self.positions_amt.get(InstrumentType.SHARE), all_portfolio)}\n"
+            f"Облигации - {get_percentage_from_element(self.positions_amt.get(InstrumentType.BOND), all_portfolio)}\n"
+            f"Фонды - {get_percentage_from_element(self.positions_amt.get(InstrumentType.ETF), all_portfolio)}\n"
+            f"Валюта и драгметалы - {get_percentage_from_element(self.positions_amt.get(InstrumentType.CURRENCY), all_portfolio)}\n"
         )
 
     @log
-    def print_all_shares(self):
+    def print_all_shares(self) -> str:
         shares_data = [
             (position.ticker, get_money(position.current_price) * get_money(position.quantity), position.daily_yield)
             for position in self.positions.get(InstrumentType.SHARE)
@@ -79,7 +85,7 @@ class InvestPortfolio:
         return "<b>Акции</b>\n" + "\n".join(lines)
 
     @log
-    def print_all_bonds(self):
+    def print_all_bonds(self) -> str:
         bonds_data = [
             (
                 position.ticker,

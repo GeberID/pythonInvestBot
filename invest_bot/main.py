@@ -1,4 +1,5 @@
 import asyncio
+from typing import NewType
 
 import dp
 from aiogram import Bot, Dispatcher, html
@@ -14,6 +15,7 @@ from invest_bot.core.logs import create_logs_folder, log
 from invest_bot.core.invest_portfolio import InvestPortfolio
 
 dp = Dispatcher()
+AccountId = NewType("AccountId", str)
 
 
 @dp.message(CommandStart())
@@ -34,8 +36,7 @@ async def command_portfolio_handler(message: Message, account_id: str) -> None:
 @log
 async def main():
     create_logs_folder()
-    accounts_response = api.get_accounts()
-    account_id = accounts_response.accounts[0].id
+    account_id = AccountId(api.get_accounts().accounts[0].id)
     bot = Bot(token=TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     await dp.start_polling(bot, account_id=account_id)
     # print(portfolio.get_instrument_money(portfolio._all_shares_positions, "YDEX"))
