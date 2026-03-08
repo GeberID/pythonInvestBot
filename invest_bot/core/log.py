@@ -6,7 +6,7 @@ from datetime import datetime
 from invest_bot.configs import LOGS_FOLDER, LOGS_FILENAME
 
 
-def log(func):
+def write_log(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         with open(LOGS_FILENAME, "a", encoding="utf-8") as log_file:
@@ -17,6 +17,7 @@ def log(func):
                 log_file.write(f'{datetime.now()} Trace: Command {func.__name__}() return -  {result!r}\n')
             except Exception as e:
                 log_file.write(f'{datetime.now()} ERROR - {e.with_traceback(sys.exception().__traceback__)}\n')
+                raise e
             log_file.write("-------------------------------------------------------------------------\n")
         return result
 
@@ -24,7 +25,5 @@ def log(func):
 
 
 def create_logs_folder() -> None:
-    try:
+    if not os.path.exists(LOGS_FOLDER):
         os.mkdir(LOGS_FOLDER)
-    except FileExistsError:
-        print(f"Folder {LOGS_FOLDER} is exists")
