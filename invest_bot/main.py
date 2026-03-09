@@ -1,14 +1,13 @@
 import asyncio
 from typing import NewType
 
-import dp
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import Message
 
-import api.tinkoff_api as api
+import invest_bot.api.tinkoff_api as api
 from invest_bot.configs import TELEGRAM_TOKEN
 
 from invest_bot.core.log import create_logs_folder, write_log
@@ -28,7 +27,7 @@ async def command_portfolio_handler(message: Message, account_id: str) -> None:
 
 
 @write_log
-async def main():
+async def main() -> None:
     create_logs_folder()
     account_id = AccountId(api.get_accounts().accounts[0].id)
     bot = Bot(token=TELEGRAM_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
