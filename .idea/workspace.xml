@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="add pre commit and fix mypy problems">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/core/invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/invest_portfolio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/api/tinkoff_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/api/tinkoff_api.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/core/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/log.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/main.py" afterDir="false" />
     </list>
