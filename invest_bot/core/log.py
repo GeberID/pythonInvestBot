@@ -26,7 +26,7 @@ def write_log(func: F) -> F:
         logger.info(f"RUNNING SYNC: {func.__name__} with parameters {args}, {kwargs}")
         try:
             result = func(*args, **kwargs)
-            logger.exception(f"Command {func.__name__}() return -  {result!r}")
+            logger.info(f"Command {func.__name__}() return -  {result!r}")
             return result
         except Exception:
             logger.exception(f"ERROR in SYNC {func.__name__}")
@@ -37,7 +37,7 @@ def write_log(func: F) -> F:
         logger.info(f"RUNNING ASYNC: {func.__name__} with parameters {args}, {kwargs}")
         try:
             result = await func(*args, **kwargs)
-            logger.exception(f"Command {func.__name__}() return -  {result!r}")
+            logger.info(f"Command {func.__name__}() return -  {result!r}")
             return result
         except Exception:
             logger.exception(f"ERROR in ASYNC {func.__name__}")
