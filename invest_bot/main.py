@@ -30,7 +30,7 @@ async def command_portfolio_handler(message: Message, account_id: str) -> None:
 
 @write_log
 async def main() -> None:
-    session = AiohttpSession(timeout=120)
+    session = AiohttpSession(timeout=240)
     create_logs_folder()
     accounts_resp = await api.get_accounts()
     account_id = AccountId(accounts_resp.accounts[0].id)

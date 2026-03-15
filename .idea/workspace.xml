@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="add pre commit and fix mypy problems">
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="fix write_log">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/api/tinkoff_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/api/tinkoff_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/core/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/log.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -243,7 +241,23 @@
       <option name="project" value="LOCAL" />
       <updated>1773045403804</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="rewrite async">
+      <option name="closed" value="true" />
+      <created>1773597391079</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1773597391079</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix write_log">
+      <option name="closed" value="true" />
+      <created>1773597465896</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1773597465896</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -287,7 +301,9 @@
     <MESSAGE value="small fix" />
     <MESSAGE value="add pre commit and fix mypy problems" />
     <MESSAGE value="change strings" />
-    <option name="LAST_COMMIT_MESSAGE" value="change strings" />
+    <MESSAGE value="rewrite async" />
+    <MESSAGE value="fix write_log" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix write_log" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
