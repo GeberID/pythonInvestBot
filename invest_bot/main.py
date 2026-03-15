@@ -21,7 +21,7 @@ AccountId = NewType("AccountId", str)
 @write_log
 async def command_portfolio_handler(message: Message, account_id: str) -> None:
     portfolio = InvestPortfolio(api.get_portfolio(account_id=account_id))
-    await message.answer(f"{portfolio.print_common_info_str()}\n\n" + f"{portfolio.print_persent_structure_str()}")
+    await message.answer(f"{portfolio.print_common_info_str()}\n\n")
     await message.answer(f"{portfolio.print_all_shares()}")
     await message.answer(f"{portfolio.print_all_bonds()}")
 

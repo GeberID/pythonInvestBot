@@ -19,7 +19,7 @@ def write_log(func: F) -> F:
                 result = func(*args, **kwargs)
                 log_file.write(f"{datetime.now()} Trace: Command {func.__name__}() return -  {result!r}\n")
             except Exception as e:
-                log_file.write(f"{datetime.now()} ERROR - {e.with_traceback(sys.exception().__traceback__)}\n")
+                log_file.write(f"{datetime.now()} ERROR - {e.with_traceback(sys.exception())}\n")
                 raise e
             log_file.write("-------------------------------------------------------------------------\n")
         return result

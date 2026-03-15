@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="add pre commit and fix mypy problems">
-      <change afterPath="$PROJECT_DIR$/.pre-commit-config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/core/invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/invest_portfolio.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/core/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/core/money_utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/money_utilities.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/mypy.ini" beforeDir="false" afterPath="$PROJECT_DIR$/mypy.ini" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772975315229</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="add pre commit and fix mypy problems">
+      <option name="closed" value="true" />
+      <created>1773045403804</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1773045403804</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -281,18 +286,10 @@
     <MESSAGE value="refactoring and add dataclasses" />
     <MESSAGE value="small fix" />
     <MESSAGE value="add pre commit and fix mypy problems" />
-    <option name="LAST_COMMIT_MESSAGE" value="add pre commit and fix mypy problems" />
+    <MESSAGE value="change strings" />
+    <option name="LAST_COMMIT_MESSAGE" value="change strings" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/invest_bot/core/invest_portfolio.py</url>
-          <line>71</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="self._all_etfs_positions" />
