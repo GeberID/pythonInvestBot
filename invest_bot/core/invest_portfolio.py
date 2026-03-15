@@ -121,7 +121,7 @@ class InvestPortfolio:
             "etf_core": self._etf_core,
             "bonds": get_money(self._portfolio.total_amount_bonds),
             "shares": get_money(self._portfolio.total_amount_shares),
-            "other_etf": get_money(self._portfolio.total_amount_etf),
+            "other_etf": get_money(self._portfolio.total_amount_etf) - self._etf_core,
             "currencies": get_money(self._portfolio.total_amount_currencies) - self._free_money,
             "cash": self._free_money,
         }
