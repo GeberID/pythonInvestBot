@@ -11,7 +11,7 @@ from aiogram.types import Message
 import invest_bot.api.tinkoff_api as api
 from invest_bot.configs import TELEGRAM_TOKEN
 
-from invest_bot.core.log import create_logs_folder, write_log
+from invest_bot.core.log import write_log
 from invest_bot.core.invest_portfolio import InvestPortfolio
 
 dp = Dispatcher()
@@ -31,7 +31,6 @@ async def command_portfolio_handler(message: Message, account_id: str) -> None:
 @write_log
 async def main() -> None:
     session = AiohttpSession(timeout=240)
-    create_logs_folder()
     accounts_resp = await api.get_accounts()
     account_id = AccountId(accounts_resp.accounts[0].id)
     bot = Bot(token=TELEGRAM_TOKEN, session=session, default=DefaultBotProperties(parse_mode=ParseMode.HTML))

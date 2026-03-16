@@ -6,6 +6,7 @@ from typing import cast, TypeVar, Callable, Any
 
 from invest_bot.configs import LOGS_FOLDER, LOGS_FILENAME
 
+os.makedirs(LOGS_FOLDER, exist_ok=True)
 logger = logging.getLogger("invest_bot")
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -15,12 +16,11 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
+
 F = TypeVar("F", bound=Callable[..., Any])
 
 
 def write_log(func: F) -> F:
-    """Асинхронный декоратор для логирования команд и ошибок."""
-
     @functools.wraps(func)
     def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
         logger.info(f"RUNNING SYNC: {func.__name__} with parameters {args}, {kwargs}")
