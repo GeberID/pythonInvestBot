@@ -6,7 +6,7 @@ from typing import TypeVar, DefaultDict
 
 from t_tech.invest import PortfolioResponse, PortfolioPosition, MoneyValue
 
-from invest_bot.configs import RUB_TICKER, ETF_CORE_TICKER
+from invest_bot.configs import RUB_TICKER, ETF_CORE_TICKER, BOND_FIX, BOND_FLOATER, BOND_LINKER
 from invest_bot.core.log import write_log
 from invest_bot.core.money_utilities import get_money, get_percentage_from_element
 
@@ -20,7 +20,13 @@ class InstrumentType(StrEnum):
     CURRENCY = "currency"
 
 
-@dataclass
+class BondType(StrEnum):
+    FIX = BOND_FIX
+    FLOATER = BOND_FLOATER
+    LINKER = BOND_LINKER
+
+
+@dataclass(frozen=True)
 class ShareData:
     ticker: str
     money: Decimal
@@ -28,7 +34,7 @@ class ShareData:
     expected_yield: Decimal
     percentage_of_portfolio: Decimal
 
-    def __str__(self):
+    def __str__(self) -> str:
         d_sign = "+" if self.daily_yield > 0 else ""
         e_sign = "+" if self.expected_yield > 0 else ""
         return (
@@ -40,7 +46,7 @@ class ShareData:
         )
 
 
-@dataclass
+@dataclass(frozen=True)
 class BondData:
     ticker: str
     money: Decimal
@@ -48,6 +54,7 @@ class BondData:
     daily_yield: Decimal
     expected_yield: Decimal
     percentage_of_portfolio: Decimal
+    type: BondType
 
     def __str__(self) -> str:
         d_sign = "+" if self.daily_yield > 0 else ""
@@ -59,71 +66,75 @@ class BondData:
 
 
 class InvestPortfolio:
-    _portfolio: PortfolioResponse
-    _positions: DefaultDict[InstrumentType, list[PortfolioPosition]] = defaultdict(list)
-    _etf_core: Decimal
-    _free_money: Decimal
-    _total_portfolio: Decimal
-    _shares: list[ShareData]
-    _bonds: list[BondData]
+    """Класс представляет собой объект портфолио из всех инструментов, которые имеет пользователь
+    Объект неизменяемый, объект умеет получать данные из PortfolioResponse и отображать их в информацию,
+    понятную пользователю для печати.
+    """
+
+    __portfolio: PortfolioResponse
+    __positions: DefaultDict[InstrumentType, list[PortfolioPosition]] = defaultdict(list)
+    __etf_core: Decimal
+    __free_money: Decimal
+    __total_portfolio: Decimal
+    __shares: list[ShareData]
+    __bonds: list[BondData]
 
     def __init__(self, portfolio: PortfolioResponse):
-        self._portfolio = portfolio
-        self._positions = defaultdict(list)
+        self.__portfolio = portfolio
+        self.__positions = defaultdict(list)
         for p in portfolio.positions:
             try:
                 inst_type = InstrumentType(p.instrument_type)
-                self._positions[inst_type].append(p)
+                self.__positions[inst_type].append(p)
             except ValueError:
                 continue
-        self._etf_core = self.get_instrument_money(self._positions[InstrumentType.ETF], ETF_CORE_TICKER)
-        self._free_money = self._get_free_money()
-        self._total_portfolio = (
-            get_money(self._portfolio.total_amount_bonds)
-            + get_money(self._portfolio.total_amount_etf)
-            + get_money(self._portfolio.total_amount_currencies)
-            + get_money(self._portfolio.total_amount_shares)
+        self.__etf_core = self.__get_instrument_money(self.__positions[InstrumentType.ETF], ETF_CORE_TICKER)
+        self.__free_money = self.__get_free_money()
+        self.__total_portfolio = (
+            get_money(self.__portfolio.total_amount_bonds)
+            + get_money(self.__portfolio.total_amount_etf)
+            + get_money(self.__portfolio.total_amount_currencies)
+            + get_money(self.__portfolio.total_amount_shares)
         )
-        self._shares = self._get_all_shares_data()
-        self._bonds = self._get_all_bonds_data()
+        self.__shares = self.__get_all_shares_data()
+        self.__bonds = self.__get_all_bonds_data()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.__class__.__name__}"
 
-    @write_log
-    def print_common_info_str_old(self) -> str:
-        return (
-            f"Портфолио:\n"
-            f"Ядро:\n"
-            f"Фонды акций- {self._etf_core:,.2f} ₽ - "
-            f" {get_percentage_from_element(self._etf_core, self._total_portfolio)} %\n"
-            f"Облигации - {get_money(self._portfolio.total_amount_bonds):,.2f} ₽ - "
-            f"{get_percentage_from_element(get_money(self._portfolio.total_amount_bonds), self._total_portfolio)} %\n\n"
-            f"Спутники:\n"
-            f"Акции - {get_money(self._portfolio.total_amount_shares):,.2f} ₽ - "
-            f"{get_percentage_from_element(get_money(self._portfolio.total_amount_shares), self._total_portfolio)} %\n"
-            f"Остальные Фонды - {get_money(self._portfolio.total_amount_etf):,.2f} ₽ - "
-            f"{get_percentage_from_element(get_money(self._portfolio.total_amount_etf), self._total_portfolio)} %\n"
-            f"Валюта и драгметалы - {get_money(self._portfolio.total_amount_currencies)  - self._free_money:,.2f} ₽ - "
-            f"{get_percentage_from_element(get_money(self._portfolio.total_amount_currencies), self._total_portfolio)} %\n\n"
-            f"Свободной валюты - {self._free_money:,.2f} ₽ - {get_percentage_from_element(self._free_money, self._total_portfolio)} %\n\n"
-            f"------------------------------\n"
-            f"Всего - {self._total_portfolio:,.2f} ₽"
-        )
+    @property
+    def etf_core(self) -> Decimal:
+        return self.__etf_core
+
+    @property
+    def free_money(self) -> Decimal:
+        return self.__free_money
+
+    @property
+    def shares(self) -> list[ShareData]:
+        return self.__shares
+
+    @property
+    def bonds(self) -> list[BondData]:
+        return self.__bonds
+
+    @property
+    def total_portfolio(self) -> Decimal:
+        return self.__total_portfolio
 
     @write_log
     def print_common_info_str(self) -> str:
-        total = self._total_portfolio
+        total = self.__total_portfolio
         if total == 0:
             return "<b>Портфолио:</b>\nПусто. Пополните счет для анализа."
 
         data = {
-            "etf_core": self._etf_core,
-            "bonds": get_money(self._portfolio.total_amount_bonds),
-            "shares": get_money(self._portfolio.total_amount_shares),
-            "other_etf": get_money(self._portfolio.total_amount_etf) - self._etf_core,
-            "currencies": get_money(self._portfolio.total_amount_currencies) - self._free_money,
-            "cash": self._free_money,
+            "etf_core": self.__etf_core,
+            "bonds": get_money(self.__portfolio.total_amount_bonds),
+            "shares": get_money(self.__portfolio.total_amount_shares),
+            "other_etf": get_money(self.__portfolio.total_amount_etf) - self.__etf_core,
+            "currencies": get_money(self.__portfolio.total_amount_currencies) - self.__free_money,
+            "cash": self.__free_money,
         }
 
         def row(label: str, value: Decimal) -> str:
@@ -157,7 +168,7 @@ class InvestPortfolio:
             "<code>ТКР  |   Σ   |  📅  |  📈  | % </code>\n"
             "<code>-----|-------|------|------|----</code>"
         )
-        body = "\n".join(str(s) for s in self._shares)
+        body = "\n".join(str(s) for s in self.__shares)
         return f"{header}\n{body}"
 
     @write_log
@@ -168,11 +179,11 @@ class InvestPortfolio:
             "<code>  Σ ПОЗИЦИИ  | ДЕНЬ | ИТОГО| НКД </code>\n"
             "<code>-------------|------|------|-----</code>"
         )
-        body = "\n".join(str(bond) for bond in self._bonds)
+        body = "\n".join(str(bond) for bond in self.__bonds)
         return f"{header}\n{body}"
 
     @write_log
-    def get_instrument_money(self, positions: list[PortfolioPosition], ticker: str) -> Decimal:
+    def __get_instrument_money(self, positions: list[PortfolioPosition], ticker: str) -> Decimal:
         for position in positions:
             if position.ticker == ticker:
                 current_price = get_money(position.current_price)
@@ -181,16 +192,16 @@ class InvestPortfolio:
         return Decimal(-1)
 
     @write_log
-    def _get_free_money(self) -> Decimal:
+    def __get_free_money(self) -> Decimal:
         temp_free_money: PortfolioPosition = [
-            element for element in self._positions[InstrumentType.CURRENCY] if element.ticker == RUB_TICKER
+            element for element in self.__positions[InstrumentType.CURRENCY] if element.ticker == RUB_TICKER
         ].pop()
         return get_money(temp_free_money.quantity)
 
     @write_log
-    def _get_all_shares_data(self) -> list[ShareData]:
+    def __get_all_shares_data(self) -> list[ShareData]:
         positions = sorted(
-            self._positions[InstrumentType.SHARE],
+            self.__positions[InstrumentType.SHARE],
             key=lambda x: get_money(x.current_price) * get_money(x.quantity),
             reverse=True,
         )
@@ -201,7 +212,7 @@ class InvestPortfolio:
                 daily_yield=get_money(p.daily_yield),
                 expected_yield=get_money(p.expected_yield),
                 percentage_of_portfolio=get_percentage_from_element(
-                    get_money(p.current_price) * get_money(p.quantity), self._total_portfolio
+                    get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
                 ),
             )
             for p in positions
@@ -209,12 +220,13 @@ class InvestPortfolio:
         return shares_data
 
     @write_log
-    def _get_all_bonds_data(self) -> list[BondData]:
+    def __get_all_bonds_data(self) -> list[BondData]:
         positions = sorted(
-            self._positions[InstrumentType.BOND],
+            self.__positions[InstrumentType.BOND],
             key=lambda x: get_money(x.current_price) * get_money(x.quantity),
             reverse=True,
         )
+
         bonds_data: list[BondData] = [
             BondData(
                 ticker=p.ticker,
@@ -223,8 +235,9 @@ class InvestPortfolio:
                 daily_yield=get_money(p.daily_yield),
                 expected_yield=get_money(p.expected_yield),
                 percentage_of_portfolio=get_percentage_from_element(
-                    get_money(p.current_price) * get_money(p.quantity), self._total_portfolio
+                    get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
                 ),
+                type=BondType(p.ticker),
             )
             for p in positions
         ]
