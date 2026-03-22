@@ -8,12 +8,12 @@ from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import Message
 
-import invest_bot.api.tinkoff_api as api
-from invest_bot.configs import TELEGRAM_TOKEN, PROXY_TELEGRAM
+import api.tinkoff_api as api
+from configs import TELEGRAM_TOKEN, PROXY_TELEGRAM
 
-from invest_bot.core.log import write_log
-from invest_bot.core.invest_portfolio import InvestPortfolio
-from invest_bot.core.strategy import StrategyAnalyzer
+from core.log import write_log
+from core.invest_portfolio import InvestPortfolio
+from core.strategy import StrategyAnalyzer
 
 dp = Dispatcher()
 analyzer = StrategyAnalyzer()

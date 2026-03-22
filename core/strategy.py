@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum, auto
 from typing import TypeVar
 
-from invest_bot.configs import (
+from configs import (
     ETF_FOND_MAX,
     ETF_FOND_MIN,
     ETF_FOND_MIDDLE,
@@ -20,9 +20,9 @@ from invest_bot.configs import (
     BOND_LINKER_MIDDLE,
     SHARES_MIN,
 )
-from invest_bot.core.invest_portfolio import InvestPortfolio, InstrumentType, BondData, ShareData, BondType
-from invest_bot.core.log import write_log
-from invest_bot.core.money_utilities import get_percentage_from_element
+from core.invest_portfolio import InvestPortfolio, BondData, ShareData, BondType
+from core.log import write_log
+from core.money_utilities import get_percentage_from_element
 
 T = TypeVar("T", ShareData, BondData)
 

@@ -4,11 +4,11 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import TypeVar, DefaultDict
 
-from t_tech.invest import PortfolioResponse, PortfolioPosition, MoneyValue
+from t_tech.invest import PortfolioResponse, PortfolioPosition
 
-from invest_bot.configs import RUB_TICKER, ETF_CORE_TICKER, BOND_FIX, BOND_FLOATER, BOND_LINKER
-from invest_bot.core.log import write_log
-from invest_bot.core.money_utilities import get_money, get_percentage_from_element
+from configs import RUB_TICKER, ETF_CORE_TICKER, BOND_FIX, BOND_FLOATER, BOND_LINKER
+from core.log import write_log
+from core.money_utilities import get_money, get_percentage_from_element
 
 Position_data = TypeVar("Position_data")
 

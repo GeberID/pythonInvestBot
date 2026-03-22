@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from t_tech.invest import MoneyValue, Quotation
 
-from invest_bot.core.log import write_log
+from core.log import write_log
 
 
 @write_log

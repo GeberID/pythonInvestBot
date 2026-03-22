@@ -1,7 +1,7 @@
 from t_tech.invest import PortfolioResponse, Client, GetAccountsResponse
 
-from invest_bot.configs import TINKOFF_TOKEN
-from invest_bot.core.log import write_log
+from configs import TINKOFF_TOKEN
+from core.log import write_log
 
 
 @write_log

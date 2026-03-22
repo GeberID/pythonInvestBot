@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="fix log path">
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="add strategy prototipe">
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/analyze/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/strategy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/core/invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/core/invest_portfolio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/invest_bot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mypy.ini" beforeDir="false" afterPath="$PROJECT_DIR$/mypy.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/api/tinkoff_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/tinkoff_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/core/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/core/invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/invest_portfolio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/core/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/log.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/core/money_utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/money_utilities.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/core/strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/strategy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/invest_bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,19 +56,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "develop",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "com.jetbrains.python.black.configuration.BlackFormatterConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.black.configuration.BlackFormatterConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot" />
@@ -85,7 +90,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/invest_bot/main.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Sanya\PycharmProjects\InvestBot\main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -270,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773690120974</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="add strategy prototipe">
+      <option name="closed" value="true" />
+      <created>1774202708085</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1774202708086</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -317,13 +330,14 @@
     <MESSAGE value="rewrite async" />
     <MESSAGE value="fix write_log" />
     <MESSAGE value="fix log path" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix log path" />
+    <MESSAGE value="add strategy prototipe" />
+    <option name="LAST_COMMIT_MESSAGE" value="add strategy prototipe" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/invest_bot/main.py</url>
+          <url>file://$PROJECT_DIR$/main.py</url>
           <line>36</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
