@@ -22,7 +22,7 @@ from configs import (
 )
 from core.invest_portfolio import InvestPortfolio, BondData, ShareData, BondType
 from core.log import write_log
-from core.money_utilities import get_percentage_from_element
+from core.portfolio_instruments import EtfData
 
 T = TypeVar("T", ShareData, BondData)
 
@@ -59,12 +59,15 @@ class StrategyAnalyzer:
         return self.__discrepancy
 
     @write_log
-    def __check_etf_core(self, etf_core: Decimal, total_portfolio: Decimal) -> None:
-        persent = get_percentage_from_element(etf_core, total_portfolio)
-        if persent > ETF_FOND_MAX:
-            self.__discrepancy.etf = persent - ETF_FOND_MAX
-        elif persent < ETF_FOND_MIN:
-            self.__discrepancy.etf = ETF_FOND_MIDDLE - persent
+    def __check_etf_core(self, etfs:list[EtfData]) -> None:
+        for etf in etfs:
+            self.__set_discrepancy(self.__discrepancy.etf, etf, ETF_FOND_MAX, ETF_FOND_MIDDLE, ETF_FOND_MIN)
+
+
+    @write_log
+    def __check_shares(self, shares: list[ShareData]) -> None:
+        for share in shares:
+            self.__set_discrepancy(self.__discrepancy.shares, share, SHARES_MAX, SHARES_MIDDLE, SHARES_MIN)
 
     @write_log
     def __check_bond(self, bonds: list[BondData]) -> None:
@@ -80,11 +83,6 @@ class StrategyAnalyzer:
                     self.__set_discrepancy(
                         self.__discrepancy.bonds, bond, BOND_LINKER_MAX, BOND_LINKER_MIDDLE, BOND_LINKER_MIN
                     )
-
-    @write_log
-    def __check_shares(self, shares: list[ShareData]) -> None:
-        for share in shares:
-            self.__set_discrepancy(self.__discrepancy.shares, share, SHARES_MAX, SHARES_MIDDLE, SHARES_MIN)
 
     @write_log
     def __set_discrepancy(
