@@ -20,11 +20,17 @@ from configs import (
     BOND_LINKER_MIDDLE,
     SHARES_MIN,
 )
-from core.invest_portfolio import InvestPortfolio, BondData, ShareData, BondType
+from core.invest_portfolio import InvestPortfolio
 from core.log import write_log
-from core.portfolio_instruments import EtfData
+from core.portfolio_instruments import (
+    InstrumentData,
+    ShareInstrumentData,
+    EtfInstrumentData,
+    BondInstrumentData,
+    BondType,
+)
 
-T = TypeVar("T", ShareData, BondData)
+T = TypeVar("T", ShareInstrumentData, EtfInstrumentData, BondInstrumentData)
 
 
 class Change(Enum):
@@ -34,9 +40,9 @@ class Change(Enum):
 
 @dataclass
 class Discrepancy:
-    etf: Decimal
-    shares: dict[ShareData, tuple[Decimal, Change]]
-    bonds: dict[BondData, tuple[Decimal, Change]]
+    etf: dict[EtfInstrumentData, tuple[Decimal, Change]]
+    shares: dict[ShareInstrumentData, tuple[Decimal, Change]]
+    bonds: dict[BondInstrumentData, tuple[Decimal, Change]]
 
 
 class StrategyAnalyzer:
@@ -49,28 +55,27 @@ class StrategyAnalyzer:
     __discrepancy: Discrepancy
 
     def __init__(self) -> None:
-        self.__discrepancy = Discrepancy(etf=Decimal(), shares={}, bonds={})
+        self.__discrepancy = Discrepancy(etf={}, shares={}, bonds={})
 
     @write_log
     def analyze(self, portfolio: InvestPortfolio) -> Discrepancy:
-        self.__check_etf_core(portfolio.etf_core, portfolio.total_portfolio)
+        self.__check_etf_core(portfolio.etf_core)
         self.__check_shares(portfolio.shares)
         self.__check_bond(portfolio.bonds)
         return self.__discrepancy
 
     @write_log
-    def __check_etf_core(self, etfs:list[EtfData]) -> None:
+    def __check_etf_core(self, etfs: list[EtfInstrumentData]) -> None:
         for etf in etfs:
             self.__set_discrepancy(self.__discrepancy.etf, etf, ETF_FOND_MAX, ETF_FOND_MIDDLE, ETF_FOND_MIN)
 
-
     @write_log
-    def __check_shares(self, shares: list[ShareData]) -> None:
+    def __check_shares(self, shares: list[ShareInstrumentData]) -> None:
         for share in shares:
             self.__set_discrepancy(self.__discrepancy.shares, share, SHARES_MAX, SHARES_MIDDLE, SHARES_MIN)
 
     @write_log
-    def __check_bond(self, bonds: list[BondData]) -> None:
+    def __check_bond(self, bonds: list[BondInstrumentData]) -> None:
         for bond in bonds:
             match bond.type:
                 case BondType.FIX:

@@ -1,9 +1,9 @@
-from abc import ABC
 from dataclasses import dataclass
 from decimal import Decimal
 from enum import StrEnum
+from typing import Protocol, runtime_checkable
 
-from configs import RUB_TICKER, ETF_CORE_TICKER, BOND_FIX, BOND_FLOATER, BOND_LINKER
+from configs import BOND_FIX, BOND_FLOATER, BOND_LINKER
 
 
 class InstrumentType(StrEnum):
@@ -19,17 +19,33 @@ class BondType(StrEnum):
     LINKER = BOND_LINKER
 
 
-@dataclass(frozen=True)
-class Data(ABC):
+@runtime_checkable
+class MarketInstrument(Protocol):
+    """Протокол, описывающий минимально необходимые поля для любого актива."""
+
     ticker: str
     money: Decimal
     daily_yield: Decimal
     expected_yield: Decimal
     percentage_of_portfolio: Decimal
 
+    def __init__(
+        self,
+        ticker: str,
+        money: Decimal,
+        daily_yield: Decimal,
+        expected_yield: Decimal,
+        percentage_of_portfolio: Decimal,
+    ) -> None: ...
 
-@dataclass(frozen=True)
-class EtfData(Data):
+
+@dataclass(frozen=True, slots=True)
+class InstrumentData:
+    ticker: str
+    money: Decimal
+    daily_yield: Decimal
+    expected_yield: Decimal
+    percentage_of_portfolio: Decimal
 
     def __str__(self) -> str:
         d_sign = "+" if self.daily_yield > 0 else ""
@@ -43,23 +59,18 @@ class EtfData(Data):
         )
 
 
-@dataclass(frozen=True)
-class ShareData(Data):
-
-    def __str__(self) -> str:
-        d_sign = "+" if self.daily_yield > 0 else ""
-        e_sign = "+" if self.expected_yield > 0 else ""
-        return (
-            f"<code>{self.ticker:<5}</code>|"
-            f"{self.money:>7.0f}|"
-            f"{d_sign}{self.daily_yield:>5.0f}|"
-            f"{e_sign}{self.expected_yield:>5.0f}|"
-            f"{self.percentage_of_portfolio:>4.1f}%"
-        )
+@dataclass(frozen=True, slots=True)
+class ShareInstrumentData(InstrumentData):
+    pass
 
 
-@dataclass(frozen=True)
-class BondData(Data):
+@dataclass(frozen=True, slots=True)
+class EtfInstrumentData(InstrumentData):
+    pass
+
+
+@dataclass(frozen=True, slots=True)
+class BondInstrumentData(InstrumentData):
     nkd: Decimal
     type: BondType
 

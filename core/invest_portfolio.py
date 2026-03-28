@@ -1,15 +1,25 @@
 from collections import defaultdict
 from decimal import Decimal
-from typing import TypeVar, DefaultDict
+from typing import TypeVar, DefaultDict, Type
 
 from t_tech.invest import PortfolioResponse, PortfolioPosition
 
+from configs import RUB_TICKER
 from core.log import write_log
 from core.money_utilities import get_money, get_percentage_from_element
-from core.portfolio_instruments import InstrumentType, ShareData, BondData, BondType, EtfData
+from core.portfolio_instruments import (
+    InstrumentType,
+    BondInstrumentData,
+    BondType,
+    EtfInstrumentData,
+    ShareInstrumentData,
+    InstrumentData,
+    MarketInstrument,
+)
 from core.telegram_messages import share_header, bond_header
 
 Position_data = TypeVar("Position_data")
+T = TypeVar("T", bound=InstrumentData)
 
 
 class InvestPortfolio:
@@ -20,9 +30,9 @@ class InvestPortfolio:
 
     __portfolio: PortfolioResponse
     __positions: DefaultDict[InstrumentType, list[PortfolioPosition]] = defaultdict(list)
-    __etf: list[EtfData]
-    __shares: list[ShareData]
-    __bonds: list[BondData]
+    __etf: list[EtfInstrumentData]
+    __shares: list[ShareInstrumentData]
+    __bonds: list[BondInstrumentData]
     __free_money: Decimal
     __total_portfolio: Decimal
 
@@ -35,30 +45,30 @@ class InvestPortfolio:
                 self.__positions[inst_type].append(p)
             except ValueError:
                 continue
+        self.__total_portfolio = (
+            get_money(self.__portfolio.total_amount_bonds)
+            + get_money(self.__portfolio.total_amount_etf)
+            + get_money(self.__portfolio.total_amount_currencies)
+            + get_money(self.__portfolio.total_amount_shares)
+        )
         self.__etf = self.__get_all_etfs_data()
         self.__shares = self.__get_all_shares_data()
         self.__bonds = self.__get_all_bonds_data()
         self.__free_money = self.__get_free_money()
-        self.__total_portfolio = (
-                get_money(self.__portfolio.total_amount_bonds)
-                + get_money(self.__portfolio.total_amount_etf)
-                + get_money(self.__portfolio.total_amount_currencies)
-                + get_money(self.__portfolio.total_amount_shares)
-        )
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}"
 
     @property
-    def etf_core(self) -> list[EtfData]:
+    def etf_core(self) -> list[EtfInstrumentData]:
         return self.__etf
 
     @property
-    def shares(self) -> list[ShareData]:
+    def shares(self) -> list[ShareInstrumentData]:
         return self.__shares
 
     @property
-    def bonds(self) -> list[BondData]:
+    def bonds(self) -> list[BondInstrumentData]:
         return self.__bonds
 
     @property
@@ -73,8 +83,7 @@ class InvestPortfolio:
     def print_common_info_str(self) -> str:
         total = self.__total_portfolio
         if total == 0:
-            return ("<b>Портфолио:</b>\n"
-                    "Пусто. Пополните счет для анализа.")
+            return "<b>Портфолио:</b>\nПусто. Пополните счет для анализа."
 
         data = {
             "etf": get_money(self.__portfolio.total_amount_etf),
@@ -92,12 +101,11 @@ class InvestPortfolio:
             "<b>📊 СОСТОЯНИЕ ПОРТФЕЛЯ</b>",
             "",
             "<b>🟢 ЯДРО (Index/Safe)</b>",
-            row("Фонды акций", data["etf_core"]),
+            row("Фонды акций", data["etf"]),
             row("Облигации", data["bonds"]),
             "",
             "<b>🟡 СПУТНИКИ (Alpha)</b>",
             row("Акции", data["shares"]),
-            row("Прочие фонды", data["other_etf"]),
             row("Металлы/Валюта", data["currencies"]),
             "",
             "<b>⚪️ КЭШ</b>",
@@ -125,54 +133,35 @@ class InvestPortfolio:
                 current_price = get_money(position.current_price)
                 quantity = get_money(position.quantity)
                 return current_price * quantity
-        return Decimal(-1)
+        raise ValueError(f"Не найдено позиции с тикером {ticker}")
 
     @write_log
     def __get_free_money(self) -> Decimal:
-        temp_free_money: PortfolioPosition = [
-            element for element in self.__positions[InstrumentType.CURRENCY] if element.ticker == RUB_TICKER
-        ].pop()
+        positions = self.__positions[InstrumentType.CURRENCY]
+        if not positions:
+            raise ValueError("Не найдены валютные позиции")
+        temp_free_money = next((element for element in positions if element.ticker == RUB_TICKER), None)
+        if temp_free_money is None:
+            raise ValueError(f"Не найдена позиция с тикером {RUB_TICKER}")
         return get_money(temp_free_money.quantity)
 
     @write_log
-    def __get_all_etfs_data(self) -> list[EtfData]:
+    def __get_all_etfs_data(self) -> list[EtfInstrumentData]:
         positions = self.__get_positions(self.__positions[InstrumentType.ETF])
-        etfs_data: list[EtfData] = [
-            EtfData(
-                ticker=p.ticker,
-                money=get_money(p.current_price) * get_money(p.quantity),
-                daily_yield=get_money(p.daily_yield),
-                expected_yield=get_money(p.expected_yield),
-                percentage_of_portfolio=get_percentage_from_element(
-                    get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
-                ),
-            )
-            for p in positions
-        ]
+        etfs_data: list[EtfInstrumentData] = [self.__create_instrument(p, EtfInstrumentData) for p in positions]
         return etfs_data
 
     @write_log
-    def __get_all_shares_data(self) -> list[ShareData]:
+    def __get_all_shares_data(self) -> list[ShareInstrumentData]:
         positions = self.__get_positions(self.__positions[InstrumentType.SHARE])
-        shares_data: list[ShareData] = [
-            ShareData(
-                ticker=p.ticker,
-                money=get_money(p.current_price) * get_money(p.quantity),
-                daily_yield=get_money(p.daily_yield),
-                expected_yield=get_money(p.expected_yield),
-                percentage_of_portfolio=get_percentage_from_element(
-                    get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
-                ),
-            )
-            for p in positions
-        ]
+        shares_data: list[ShareInstrumentData] = [self.__create_instrument(p, ShareInstrumentData) for p in positions]
         return shares_data
 
     @write_log
-    def __get_all_bonds_data(self) -> list[BondData]:
+    def __get_all_bonds_data(self) -> list[BondInstrumentData]:
         positions = self.__get_positions(self.__positions[InstrumentType.BOND])
-        bonds_data: list[BondData] = [
-            BondData(
+        bonds_data: list[BondInstrumentData] = [
+            BondInstrumentData(
                 ticker=p.ticker,
                 money=get_money(p.current_price) * get_money(p.quantity),
                 nkd=get_money(p.current_nkd),
@@ -187,10 +176,22 @@ class InvestPortfolio:
         ]
         return bonds_data
 
-    def __get_positions(self, positions: list[PortfolioPosition]):
+    @write_log
+    def __get_positions(self, positions: list[PortfolioPosition]) -> list[PortfolioPosition]:
         positions = sorted(
             positions,
             key=lambda x: get_money(x.current_price) * get_money(x.quantity),
             reverse=True,
         )
         return positions
+
+    def __create_instrument(self, p: PortfolioPosition, instrument_class: Type[T]) -> T:
+        return instrument_class(
+            ticker=p.ticker,
+            money=get_money(p.current_price) * get_money(p.quantity),
+            daily_yield=get_money(p.daily_yield),
+            expected_yield=get_money(p.expected_yield),
+            percentage_of_portfolio=get_percentage_from_element(
+                get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
+            ),
+        )
