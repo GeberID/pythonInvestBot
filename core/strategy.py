@@ -23,7 +23,6 @@ from configs import (
 from core.invest_portfolio import InvestPortfolio
 from core.log import write_log
 from core.portfolio_instruments import (
-    InstrumentData,
     ShareInstrumentData,
     EtfInstrumentData,
     BondInstrumentData,

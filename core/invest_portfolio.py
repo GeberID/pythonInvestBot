@@ -14,7 +14,6 @@ from core.portfolio_instruments import (
     EtfInstrumentData,
     ShareInstrumentData,
     InstrumentData,
-    MarketInstrument,
 )
 from core.telegram_messages import share_header, bond_header
 

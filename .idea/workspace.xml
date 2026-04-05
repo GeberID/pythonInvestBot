@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="add strategy and tests">
-      <change afterPath="$PROJECT_DIR$/test/conftest.py" afterDir="false" />
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="refactoring (add protocol)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/invest_portfolio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/money_utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/money_utilities.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/portfolio_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/portfolio_instruments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/strategy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_invest_portfolio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,26 +50,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_bonds.executor": "Run",
-    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_shares.executor": "Run",
-    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_total_calculation.executor": "Run",
-    "Python.main (1).executor": "Debug",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "develop",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "fr.baretto.ollamassist.setting.OllamassistSettingsConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_bonds.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_shares.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_total_calculation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;fr.baretto.ollamassist.setting.OllamassistSettingsConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot" />
+      <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\invest_bot" />
     </key>
   </component>
@@ -373,7 +370,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774208198262</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="refactoring (add protocol)">
+      <option name="closed" value="true" />
+      <created>1774721772512</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1774721772512</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -400,7 +405,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="firs commit" />
     <MESSAGE value="первое получение данных о счете" />
     <MESSAGE value="спрятал токен" />
     <MESSAGE value="gitignore" />
@@ -425,7 +429,8 @@
     <MESSAGE value="add requirements.txt" />
     <MESSAGE value="fix bugs" />
     <MESSAGE value="add strategy and tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="add strategy and tests" />
+    <MESSAGE value="refactoring (add protocol)" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring (add protocol)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
