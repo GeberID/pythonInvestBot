@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import Enum, auto
 from typing import TypeVar
 
-from configs import (
+from investbot.configs import (
     ETF_FOND_MAX,
     ETF_FOND_MIN,
     ETF_FOND_MIDDLE,
@@ -20,9 +20,9 @@ from configs import (
     BOND_LINKER_MIDDLE,
     SHARES_MIN,
 )
-from core.invest_portfolio import InvestPortfolio
-from core.log import write_log
-from core.portfolio_instruments import (
+from investbot.core.invest_portfolio import InvestPortfolio
+from investbot.core.log import write_log
+from investbot.core.portfolio_instruments import (
     ShareInstrumentData,
     EtfInstrumentData,
     BondInstrumentData,

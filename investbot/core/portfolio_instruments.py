@@ -3,7 +3,7 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import Protocol, runtime_checkable
 
-from configs import BOND_FIX, BOND_FLOATER, BOND_LINKER
+from investbot.configs import BOND_FIX, BOND_FLOATER, BOND_LINKER
 
 
 class InstrumentType(StrEnum):

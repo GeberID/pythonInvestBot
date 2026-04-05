@@ -4,7 +4,7 @@ import logging
 import os
 from typing import cast, TypeVar, Callable, Any
 
-from configs import LOGS_FOLDER, LOGS_FILENAME
+from investbot.configs import LOGS_FOLDER, LOGS_FILENAME
 
 os.makedirs(LOGS_FOLDER, exist_ok=True)
 logger = logging.getLogger("invest_bot")

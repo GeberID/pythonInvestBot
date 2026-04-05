@@ -4,10 +4,10 @@ from typing import TypeVar, DefaultDict, Type
 
 from t_tech.invest import PortfolioResponse, PortfolioPosition
 
-from configs import RUB_TICKER
-from core.log import write_log
-from core.money_utilities import get_money, get_percentage_from_element
-from core.portfolio_instruments import (
+from investbot.configs import RUB_TICKER
+from investbot.core.log import write_log
+from investbot.core.money_utilities import get_money, get_percentage_from_element
+from investbot.core.portfolio_instruments import (
     InstrumentType,
     BondInstrumentData,
     BondType,
@@ -15,7 +15,7 @@ from core.portfolio_instruments import (
     ShareInstrumentData,
     InstrumentData,
 )
-from core.telegram_messages import share_header, bond_header
+from investbot.core.telegram_messages import share_header, bond_header
 
 Position_data = TypeVar("Position_data")
 T = TypeVar("T", bound=InstrumentData)

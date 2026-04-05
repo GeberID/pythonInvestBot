@@ -2,8 +2,8 @@ from decimal import Decimal
 
 from t_tech.invest import PortfolioResponse
 
-from core.invest_portfolio import InvestPortfolio
-from core.portfolio_instruments import BondInstrumentData, BondType, ShareInstrumentData
+from investbot.core.invest_portfolio import InvestPortfolio
+from investbot.core.portfolio_instruments import BondInstrumentData, BondType, ShareInstrumentData
 
 
 def test_portfolio_total_calculation(fake_portfolio_response: PortfolioResponse) -> None:

@@ -1,4 +1,5 @@
 import asyncio
+import investbot.api.tinkoff_api as api
 from typing import NewType
 
 from aiogram import Bot, Dispatcher
@@ -8,15 +9,12 @@ from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import Message
 
-import api.tinkoff_api as api
-from configs import TELEGRAM_TOKEN, PROXY_TELEGRAM
-
-from core.log import write_log
-from core.invest_portfolio import InvestPortfolio
-from core.strategy import StrategyAnalyzer
+from investbot.configs import TELEGRAM_TOKEN, PROXY_TELEGRAM
+from investbot.core.log import write_log
+from investbot.core.invest_portfolio import InvestPortfolio
+from investbot.core.strategy import StrategyAnalyzer
 
 dp = Dispatcher()
-analyzer = StrategyAnalyzer()
 AccountId = NewType("AccountId", str)
 
 
@@ -33,6 +31,7 @@ async def command_portfolio_handler(message: Message, account_id: str) -> None:
 @write_log
 async def command_analyze_handler(message: Message, account_id: str) -> None:
     portfolio = await fetch_portfolio(account_id)
+    analyzer = StrategyAnalyzer()
     analyze_result = analyzer.analyze(portfolio)
     print(analyze_result)
 
@@ -42,7 +41,7 @@ async def command_analyze_handler(message: Message, account_id: str) -> None:
 
 
 @write_log
-async def main() -> None:
+async def start() -> None:
     session = AiohttpSession(timeout=300, proxy=PROXY_TELEGRAM)
     accounts_resp = await api.get_accounts()
     account_id = AccountId(accounts_resp.accounts[0].id)
@@ -56,5 +55,12 @@ async def fetch_portfolio(account_id: str) -> InvestPortfolio:
     return InvestPortfolio(data)
 
 
+def main() -> None:
+    try:
+        asyncio.run(start())
+    except KeyboardInterrupt:
+        print("Бот остановлен пользователем")
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
