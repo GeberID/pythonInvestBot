@@ -10,9 +10,10 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from investbot.configs import TELEGRAM_TOKEN, PROXY_TELEGRAM
-from investbot.core.log import write_log
+from investbot.core.formatter.portfolio_formatter import TelegramPortfolioFormatter
 from investbot.core.invest_portfolio import InvestPortfolio
-from investbot.core.strategy import StrategyAnalyzer
+from investbot.core.log import write_log
+from investbot.core.strategy.strategy import StrategyAnalyzer, strategy
 
 dp = Dispatcher()
 AccountId = NewType("AccountId", str)
@@ -21,23 +22,19 @@ AccountId = NewType("AccountId", str)
 @dp.message(Command("portfolio"))
 @write_log
 async def command_portfolio_handler(message: Message, account_id: str) -> None:
-    portfolio = await fetch_portfolio(account_id)
-    await message.answer(f"{portfolio.print_common_info_str()}\n\n")
-    await message.answer(f"{portfolio.print_all_shares()}")
-    await message.answer(f"{portfolio.print_all_bonds()}")
+    telegram_formatter = TelegramPortfolioFormatter(await fetch_portfolio(account_id))
+    await message.answer(f"{telegram_formatter.print_common_info_str()}\n\n")
+    await message.answer(f"{telegram_formatter.print_all_shares()}")
+    await message.answer(f"{telegram_formatter.print_all_bonds()}")
 
 
 @dp.message(Command("analyze"))
 @write_log
 async def command_analyze_handler(message: Message, account_id: str) -> None:
     portfolio = await fetch_portfolio(account_id)
-    analyzer = StrategyAnalyzer()
+    analyzer = StrategyAnalyzer(strategy)
     analyze_result = analyzer.analyze(portfolio)
     print(analyze_result)
-
-
-#    analyze_result = analyzer.get_string_result()
-#    await message.answer(f"{analyze_result}\n\n")
 
 
 @write_log

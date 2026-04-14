@@ -3,7 +3,7 @@ from decimal import Decimal
 from t_tech.invest import PortfolioResponse
 
 from investbot.core.invest_portfolio import InvestPortfolio
-from investbot.core.portfolio_instruments import BondInstrumentData, BondType, ShareInstrumentData
+from investbot.core.portfolio_instruments import InstrumentData, BondInstrumentData, BondType
 
 
 def test_portfolio_total_calculation(fake_portfolio_response: PortfolioResponse) -> None:
@@ -14,7 +14,7 @@ def test_portfolio_total_calculation(fake_portfolio_response: PortfolioResponse)
 def test_portfolio_shares(fake_portfolio_response: PortfolioResponse) -> None:
     portfolio = InvestPortfolio(fake_portfolio_response)
     assert len(portfolio.shares) == 1
-    gazp = ShareInstrumentData(
+    gazp = InstrumentData(
         ticker="GAZP",
         money=Decimal(10000.0),
         daily_yield=Decimal(10.0),
