@@ -1,10 +1,10 @@
 from collections import defaultdict
 from decimal import Decimal
-from typing import TypeVar, DefaultDict, Type
+from typing import TypeVar, DefaultDict, Type, Optional
 
 from t_tech.invest import PortfolioResponse, PortfolioPosition
 
-from investbot.configs import RUB_TICKER
+from investbot.configs import RUB_TICKER, ETF_CORE_TICKER
 from investbot.core.log import write_log
 from investbot.core.money_utilities import get_money, get_percentage_from_element
 from investbot.core.portfolio_instruments import (
@@ -26,7 +26,8 @@ class InvestPortfolio:
 
     __portfolio: PortfolioResponse
     __positions: DefaultDict[InstrumentType, list[PortfolioPosition]] = defaultdict(list)
-    __etf: list[InstrumentData]
+    __etf_core: Optional[InstrumentData]
+    __etfs: list[InstrumentData]
     __shares: list[InstrumentData]
     __bonds: list[BondInstrumentData]
     __free_money: Decimal
@@ -52,10 +53,13 @@ class InvestPortfolio:
         self.__total_portfolio = (
             self.__total_amount_bonds + self.total_amount_etf + self.total_amount_currencies + self.total_amount_shares
         )
-        self.__etf = self.__get_all_etfs_data()
+        self.__etfs = self.__get_all_etfs_data()
+        self.__etf_core = next((f for f in self.__etfs if f.ticker == ETF_CORE_TICKER), None)
         self.__shares = self.__get_all_shares_data()
         self.__bonds = self.__get_all_bonds_data()
         self.__free_money = self.__get_free_money()
+        if self.__etf_core is None:
+            raise ValueError("ETF CORE NOT FOUND")
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}"
@@ -77,8 +81,12 @@ class InvestPortfolio:
         return self.__total_amount_shares
 
     @property
-    def etf_core(self) -> list[InstrumentData]:
-        return self.__etf
+    def etf_core(self) -> InstrumentData:
+        return self.__etf_core  # type: ignore[return-value]
+
+    @property
+    def etfs(self) -> list[InstrumentData]:
+        return self.__etfs
 
     @property
     def shares(self) -> list[InstrumentData]:
@@ -95,15 +103,6 @@ class InvestPortfolio:
     @property
     def total_portfolio(self) -> Decimal:
         return self.__total_portfolio
-
-    @write_log
-    def __get_instrument_money(self, positions: list[PortfolioPosition], ticker: str) -> Decimal:
-        for position in positions:
-            if position.ticker == ticker:
-                current_price = get_money(position.current_price)
-                quantity = get_money(position.quantity)
-                return current_price * quantity
-        raise ValueError(f"Не найдено позиции с тикером {ticker}")
 
     @write_log
     def __get_free_money(self) -> Decimal:

@@ -56,18 +56,21 @@ class StrategyAnalyzer:
         self.__analyze_group(portfolio.shares, self.__config.shares, self.__discrepancy.shares)
         for bond in portfolio.bonds:
             target = self.__get_bond_target(bond.type)
-            self.__analyze_group(portfolio.bonds, target, self.__discrepancy.bonds)
+            self.__analyze_group(bond, target, self.__discrepancy.bonds)
         return self.__discrepancy
 
     @write_log
     def __analyze_group(
         self,
-        items: list[T],
+        items: list[T] | T,
         target: TargetAllocation,
         result_dict: dict[T, tuple[Decimal, Change]],
     ) -> None:
-        for item in items:
-            self.__set_discrepancy(result_dict, item, target)
+        if isinstance(items, InstrumentData):
+            self.__set_discrepancy(result_dict, items, target)
+        else:
+            for item in items:
+                self.__set_discrepancy(result_dict, item, target)
 
     def __get_bond_target(self, bond_type: BondType) -> TargetAllocation:
         match bond_type:
@@ -81,6 +84,6 @@ class StrategyAnalyzer:
     @staticmethod
     def __set_discrepancy(discrepancy_dict: dict[T, tuple[Decimal, Change]], data: T, target: TargetAllocation) -> None:
         if data.percentage_of_portfolio > target.max_pct:
-            discrepancy_dict[data] = (data.percentage_of_portfolio - target.max_pct, Change.DOWN)
+            discrepancy_dict[data] = (data.percentage_of_portfolio - target.middle_pct, Change.DOWN)
         elif data.percentage_of_portfolio < target.min_pct:
             discrepancy_dict[data] = (target.middle_pct - data.percentage_of_portfolio, Change.UP)

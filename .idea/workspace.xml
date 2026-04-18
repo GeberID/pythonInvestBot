@@ -2,18 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="begin to add strategy">
-      <change afterPath="$PROJECT_DIR$/investbot/core/formatter/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/investbot/core/formatter/portfolio_formatter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/investbot/core/strategy/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/investbot/core/strategy/strategy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/investbot/core/strategy/strategy_models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/investbot/core_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/investbot/core/invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/invest_portfolio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core/portfolio_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/portfolio_instruments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core/strategy.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core/telegram_messages.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_invest_portfolio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/investbot/core/strategy/strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/strategy/strategy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/investbot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/telegram_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,34 +51,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_bonds.executor&quot;: &quot;Debug&quot;,
-    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_shares.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_total_calculation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;fr.baretto.ollamassist.setting.OllamassistSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_bonds.executor": "Debug",
+    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_shares.executor": "Run",
+    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_total_calculation.executor": "Run",
+    "Python.core_main.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "develop",
+    "ignore.virus.scanning.warn.message": "true",
+    "settings.editor.selected.configurable": "fr.baretto.ollamassist.setting.OllamassistSettingsConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core\formatter\strategy" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core\formatter" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot" />
-      <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main (1)">
-    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.core_main">
+    <configuration name="core_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="InvestBot" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -94,35 +88,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/investbot" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/investbot/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="InvestBot" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/invest_bot" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\main.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core_main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -146,6 +117,52 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="RUN_TOOL" value="" />
       <option name="SCRIPT_NAME" value="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="telegram_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="InvestBot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/investbot" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\telegram_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="telegram_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="InvestBot" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/invest_bot" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\telegram_main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -204,11 +221,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.core_main" />
+        <item itemvalue="Python.telegram_main" />
         <item itemvalue="Python tests.Python tests for test.test_invest_portfolio.test_portfolio_bonds" />
         <item itemvalue="Python tests.Python tests for test.test_invest_portfolio.test_portfolio_total_calculation" />
         <item itemvalue="Python tests.Python tests for test.test_invest_portfolio.test_portfolio_shares" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -411,7 +428,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774721772512</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="begin to add strategy">
+      <option name="closed" value="true" />
+      <created>1776198635644</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1776198635644</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -479,18 +504,14 @@
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/investbot/core/invest_portfolio.py</url>
-          <line>112</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/investbot/main.py</url>
+          <url>file://$PROJECT_DIR$/investbot/telegram_main.py</url>
           <line>43</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/investbot/core/strategy/strategy_models.py</url>
-          <option name="timeStamp" value="37" />
+          <url>file://$PROJECT_DIR$/investbot/core/strategy/strategy.py</url>
+          <line>57</line>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
