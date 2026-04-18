@@ -41,7 +41,7 @@ class StrategyAnalyzer:
     """Класс представляет собой объект, который сравнивает текущие данные из InvestPortfolio с заранее
     забитыми инструментами и процентным соотношением из configs.py.
     Инварианты - объект получает данные только из InvestPortfolio
-    Объект умеет подготавливать сообщение в виде текста пользователю
+    Объект умеет подготавливать
     Объект умеет строить план ребалансировки"""
 
     __discrepancy: Discrepancy
@@ -52,34 +52,26 @@ class StrategyAnalyzer:
 
     @write_log
     def analyze(self, portfolio: InvestPortfolio) -> Discrepancy:
+        portfolio_bond_linker = [i for i in portfolio.bonds if i.type == BondType.LINKER]
+        portfolio_bond_floater = [i for i in portfolio.bonds if i.type == BondType.FLOATER]
+        portfolio_bond_fix = [i for i in portfolio.bonds if i.type == BondType.FIX]
+
         self.__analyze_group(portfolio.etf_core, self.__config.etf, self.__discrepancy.etf)
         self.__analyze_group(portfolio.shares, self.__config.shares, self.__discrepancy.shares)
-        for bond in portfolio.bonds:
-            target = self.__get_bond_target(bond.type)
-            self.__analyze_group(bond, target, self.__discrepancy.bonds)
+        self.__analyze_group(portfolio_bond_linker, self.__config.bonds_linker, self.__discrepancy.bonds)
+        self.__analyze_group(portfolio_bond_floater, self.__config.bonds_floater, self.__discrepancy.bonds)
+        self.__analyze_group(portfolio_bond_fix, self.__config.bonds_fix, self.__discrepancy.bonds)
         return self.__discrepancy
 
     @write_log
     def __analyze_group(
         self,
-        items: list[T] | T,
+        items: list[T],
         target: TargetAllocation,
         result_dict: dict[T, tuple[Decimal, Change]],
     ) -> None:
-        if isinstance(items, InstrumentData):
-            self.__set_discrepancy(result_dict, items, target)
-        else:
-            for item in items:
-                self.__set_discrepancy(result_dict, item, target)
-
-    def __get_bond_target(self, bond_type: BondType) -> TargetAllocation:
-        match bond_type:
-            case BondType.FIX:
-                return self.__config.bonds_fix
-            case BondType.FLOATER:
-                return self.__config.bonds_floater
-            case BondType.LINKER:
-                return self.__config.bonds_linker
+        for item in items:
+            self.__set_discrepancy(result_dict, item, target)
 
     @staticmethod
     def __set_discrepancy(discrepancy_dict: dict[T, tuple[Decimal, Change]], data: T, target: TargetAllocation) -> None:

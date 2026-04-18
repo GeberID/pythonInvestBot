@@ -26,7 +26,7 @@ class InvestPortfolio:
 
     __portfolio: PortfolioResponse
     __positions: DefaultDict[InstrumentType, list[PortfolioPosition]] = defaultdict(list)
-    __etf_core: Optional[InstrumentData]
+    __etf_core: list[InstrumentData]
     __etfs: list[InstrumentData]
     __shares: list[InstrumentData]
     __bonds: list[BondInstrumentData]
@@ -54,12 +54,10 @@ class InvestPortfolio:
             self.__total_amount_bonds + self.total_amount_etf + self.total_amount_currencies + self.total_amount_shares
         )
         self.__etfs = self.__get_all_etfs_data()
-        self.__etf_core = next((f for f in self.__etfs if f.ticker == ETF_CORE_TICKER), None)
+        self.__etf_core = [next((f for f in self.__etfs if f.ticker == ETF_CORE_TICKER))]
         self.__shares = self.__get_all_shares_data()
         self.__bonds = self.__get_all_bonds_data()
         self.__free_money = self.__get_free_money()
-        if self.__etf_core is None:
-            raise ValueError("ETF CORE NOT FOUND")
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}"
@@ -81,8 +79,8 @@ class InvestPortfolio:
         return self.__total_amount_shares
 
     @property
-    def etf_core(self) -> InstrumentData:
-        return self.__etf_core  # type: ignore[return-value]
+    def etf_core(self) -> list[InstrumentData]:
+        return self.__etf_core
 
     @property
     def etfs(self) -> list[InstrumentData]:
