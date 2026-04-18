@@ -1,24 +1,25 @@
 from collections import defaultdict
 from decimal import Decimal
-from typing import TypeVar, DefaultDict, Type, Optional
+from typing import TypeVar, DefaultDict, Type
 
 from t_tech.invest import PortfolioResponse, PortfolioPosition
 
 from investbot.configs import RUB_TICKER, ETF_CORE_TICKER
 from investbot.core.log import write_log
 from investbot.core.money_utilities import get_money, get_percentage_from_element
-from investbot.core.portfolio_instruments import (
+from investbot.core.domain.portfolio_models import (
     InstrumentType,
     BondInstrumentData,
     BondType,
     InstrumentData,
+    InvestPortfolio,
 )
 
 Position_data = TypeVar("Position_data")
 T = TypeVar("T", bound=InstrumentData)
 
 
-class InvestPortfolio:
+class TinkoffBrokerAdapter:
     """Класс представляет собой объект портфолио из всех инструментов, которые имеет пользователь
     Объект неизменяемый, объект умеет получать данные из PortfolioResponse и отображать их в информацию,
     понятную пользователю для печати.
@@ -51,7 +52,10 @@ class InvestPortfolio:
         self.__total_amount_currencies = get_money(self.__portfolio.total_amount_currencies)
         self.__total_amount_shares = get_money(self.__portfolio.total_amount_shares)
         self.__total_portfolio = (
-            self.__total_amount_bonds + self.total_amount_etf + self.total_amount_currencies + self.total_amount_shares
+            self.__total_amount_bonds
+            + self.__total_amount_etf
+            + self.__total_amount_currencies
+            + self.__total_amount_shares
         )
         self.__etfs = self.__get_all_etfs_data()
         self.__etf_core = [next((f for f in self.__etfs if f.ticker == ETF_CORE_TICKER))]
@@ -62,51 +66,23 @@ class InvestPortfolio:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}"
 
-    @property
-    def total_amount_bonds(self) -> Decimal:
-        return self.__total_amount_bonds
-
-    @property
-    def total_amount_etf(self) -> Decimal:
-        return self.__total_amount_etf
-
-    @property
-    def total_amount_currencies(self) -> Decimal:
-        return self.__total_amount_currencies
-
-    @property
-    def total_amount_shares(self) -> Decimal:
-        return self.__total_amount_shares
-
-    @property
-    def etf_core(self) -> list[InstrumentData]:
-        return self.__etf_core
-
-    @property
-    def etfs(self) -> list[InstrumentData]:
-        return self.__etfs
-
-    @property
-    def shares(self) -> list[InstrumentData]:
-        return self.__shares
-
-    @property
-    def bonds(self) -> list[BondInstrumentData]:
-        return self.__bonds
-
-    @property
-    def free_money(self) -> Decimal:
-        return self.__free_money
-
-    @property
-    def total_portfolio(self) -> Decimal:
-        return self.__total_portfolio
+    def fetch_portfolio(self) -> InvestPortfolio:
+        return InvestPortfolio(
+            etf_core=self.__etf_core,
+            etfs=self.__etfs,
+            shares=self.__shares,
+            bonds=self.__bonds,
+            free_money=self.__free_money,
+            total_amount_bonds=self.__total_amount_bonds,
+            total_amount_etf=self.__total_amount_etf,
+            total_amount_currencies=self.__total_amount_currencies,
+            total_amount_shares=self.__total_amount_shares,
+            total_portfolio=self.__total_portfolio,
+        )
 
     @write_log
     def __get_free_money(self) -> Decimal:
         positions = self.__positions[InstrumentType.CURRENCY]
-        if not positions:
-            raise ValueError("Не найдены валютные позиции")
         temp_free_money = next((element for element in positions if element.ticker == RUB_TICKER), None)
         if temp_free_money is None:
             raise ValueError(f"Не найдена позиция с тикером {RUB_TICKER}")
@@ -150,6 +126,8 @@ class InvestPortfolio:
             key=lambda x: get_money(x.current_price) * get_money(x.quantity),
             reverse=True,
         )
+        if not positions:
+            raise ValueError(f"Не найдены позиции {positions}")
         return positions
 
     @write_log

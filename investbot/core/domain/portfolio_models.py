@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
 from enum import StrEnum
-from typing import Protocol, runtime_checkable
 
 from investbot.configs import BOND_FIX, BOND_FLOATER, BOND_LINKER
 
@@ -32,3 +31,17 @@ class InstrumentData:
 class BondInstrumentData(InstrumentData):
     nkd: Decimal
     type: BondType
+
+
+@dataclass(frozen=True, slots=True)
+class InvestPortfolio:
+    etf_core: list[InstrumentData]
+    etfs: list[InstrumentData]
+    shares: list[InstrumentData]
+    bonds: list[BondInstrumentData]
+    free_money: Decimal
+    total_amount_bonds: Decimal
+    total_amount_etf: Decimal
+    total_amount_currencies: Decimal
+    total_amount_shares: Decimal
+    total_portfolio: Decimal

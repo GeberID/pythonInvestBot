@@ -2,17 +2,17 @@ from decimal import Decimal
 
 from t_tech.invest import PortfolioResponse
 
-from investbot.core.invest_portfolio import InvestPortfolio
-from investbot.core.portfolio_instruments import InstrumentData, BondInstrumentData, BondType
+from investbot.core.adapters.tinkoff_portfolio import TinkoffBrokerAdapter
+from investbot.core.domain.portfolio_models import InstrumentData, BondInstrumentData, BondType
 
 
 def test_portfolio_total_calculation(fake_portfolio_response: PortfolioResponse) -> None:
-    portfolio = InvestPortfolio(fake_portfolio_response)
+    portfolio = TinkoffBrokerAdapter(fake_portfolio_response).fetch_portfolio()
     assert portfolio.total_portfolio == 36000
 
 
 def test_portfolio_shares(fake_portfolio_response: PortfolioResponse) -> None:
-    portfolio = InvestPortfolio(fake_portfolio_response)
+    portfolio = TinkoffBrokerAdapter(fake_portfolio_response).fetch_portfolio()
     assert len(portfolio.shares) == 1
     gazp = InstrumentData(
         ticker="GAZP",
@@ -25,7 +25,7 @@ def test_portfolio_shares(fake_portfolio_response: PortfolioResponse) -> None:
 
 
 def test_portfolio_bonds(fake_portfolio_response: PortfolioResponse) -> None:
-    portfolio = InvestPortfolio(fake_portfolio_response)
+    portfolio = TinkoffBrokerAdapter(fake_portfolio_response).fetch_portfolio()
     assert len(portfolio.bonds) == 1
     bond = BondInstrumentData(
         ticker="SU26244RMFS2",

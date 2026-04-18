@@ -10,10 +10,11 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from investbot.configs import TELEGRAM_TOKEN, PROXY_TELEGRAM
-from investbot.core.formatter.portfolio_formatter import TelegramPortfolioFormatter
-from investbot.core.invest_portfolio import InvestPortfolio
+from investbot.core.domain.portfolio_models import InvestPortfolio
+from investbot.core.adapters.tinkoff_portfolio import TinkoffBrokerAdapter
 from investbot.core.log import write_log
-from investbot.core.strategy.strategy import StrategyAnalyzer, strategy
+from investbot.core.domain.strategy.strategy import StrategyAnalyzer, strategy
+from investbot.formatter.portfolio_formatter import TelegramPortfolioFormatter
 
 dp = Dispatcher()
 AccountId = NewType("AccountId", str)
@@ -49,7 +50,7 @@ async def start() -> None:
 
 async def fetch_portfolio(account_id: str) -> InvestPortfolio:
     data = await api.get_portfolio(account_id=account_id)
-    return InvestPortfolio(data)
+    return TinkoffBrokerAdapter(data).fetch_portfolio()
 
 
 def main() -> None:

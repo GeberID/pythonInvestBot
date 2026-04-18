@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from decimal import Decimal
 from enum import Enum, auto
 
-from investbot.core.portfolio_instruments import BondInstrumentData, InstrumentData
+from investbot.core.domain.portfolio_models import BondInstrumentData, InstrumentData
 
 
 class Change(Enum):
