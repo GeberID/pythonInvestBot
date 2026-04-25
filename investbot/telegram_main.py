@@ -1,5 +1,5 @@
 import asyncio
-import investbot.api.tinkoff_api as api
+import investbot.core.api.tinkoff_api as api
 from typing import NewType
 
 from aiogram import Bot, Dispatcher

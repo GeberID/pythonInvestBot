@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import TypeVar
+from typing import TypeVar, Sequence
 
 from investbot.configs import (
     ETF_MIN,
@@ -66,7 +66,7 @@ class StrategyAnalyzer:
     @write_log
     def __analyze_group(
         self,
-        items: list[T],
+        items: Sequence[T],
         target: TargetAllocation,
         result_dict: dict[T, tuple[Decimal, Change]],
     ) -> None:

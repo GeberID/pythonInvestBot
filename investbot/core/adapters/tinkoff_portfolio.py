@@ -5,7 +5,7 @@ from typing import TypeVar, DefaultDict, Type
 from t_tech.invest import PortfolioResponse, PortfolioPosition
 
 from investbot.configs import RUB_TICKER, ETF_CORE_TICKER
-from investbot.core.log import write_log
+from investbot.core.log import write_log, logger
 from investbot.core.money_utilities import get_money, get_percentage_from_element
 from investbot.core.domain.portfolio_models import (
     InstrumentType,
@@ -58,7 +58,7 @@ class TinkoffBrokerAdapter:
             + self.__total_amount_shares
         )
         self.__etfs = self.__get_all_etfs_data()
-        self.__etf_core = [next((f for f in self.__etfs if f.ticker == ETF_CORE_TICKER))]
+        self.__etf_core = [f for f in self.__etfs if f.ticker == ETF_CORE_TICKER]
         self.__shares = self.__get_all_shares_data()
         self.__bonds = self.__get_all_bonds_data()
         self.__free_money = self.__get_free_money()
@@ -85,49 +85,61 @@ class TinkoffBrokerAdapter:
         positions = self.__positions[InstrumentType.CURRENCY]
         temp_free_money = next((element for element in positions if element.ticker == RUB_TICKER), None)
         if temp_free_money is None:
-            raise ValueError(f"Не найдена позиция с тикером {RUB_TICKER}")
+            return Decimal(0)
         return get_money(temp_free_money.quantity)
 
     @write_log
     def __get_all_etfs_data(self) -> list[InstrumentData]:
         positions = self.__get_positions(self.__positions[InstrumentType.ETF])
-        etfs_data: list[InstrumentData] = [self.__create_instrument(p, InstrumentData) for p in positions]
-        return etfs_data
+        if len(positions) > 0:
+            etfs_data: list[InstrumentData] = [self.__create_instrument(p, InstrumentData) for p in positions]
+            return etfs_data
+        logger.warning(f"Empty ETFs in positions: {positions}")
+        return []
 
     @write_log
     def __get_all_shares_data(self) -> list[InstrumentData]:
         positions = self.__get_positions(self.__positions[InstrumentType.SHARE])
-        shares_data: list[InstrumentData] = [self.__create_instrument(p, InstrumentData) for p in positions]
-        return shares_data
+        if len(positions) > 0:
+            shares_data: list[InstrumentData] = [self.__create_instrument(p, InstrumentData) for p in positions]
+            return shares_data
+        logger.warning(f"Empty Shares in positions: {positions}")
+        return []
 
     @write_log
     def __get_all_bonds_data(self) -> list[BondInstrumentData]:
         positions = self.__get_positions(self.__positions[InstrumentType.BOND])
-        bonds_data: list[BondInstrumentData] = [
-            BondInstrumentData(
-                ticker=p.ticker,
-                money=get_money(p.current_price) * get_money(p.quantity),
-                nkd=get_money(p.current_nkd),
-                daily_yield=get_money(p.daily_yield),
-                expected_yield=get_money(p.expected_yield),
-                percentage_of_portfolio=get_percentage_from_element(
-                    get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
-                ),
-                type=BondType(p.ticker),
-            )
-            for p in positions
-        ]
-        return bonds_data
+        valid_tickers = {item.value for item in BondType}
+        if len(positions) > 0:
+            bonds_data: list[BondInstrumentData] = [
+                BondInstrumentData(
+                    ticker=p.ticker,
+                    money=get_money(p.current_price) * get_money(p.quantity),
+                    nkd=get_money(p.current_nkd),
+                    daily_yield=get_money(p.daily_yield),
+                    expected_yield=get_money(p.expected_yield),
+                    percentage_of_portfolio=get_percentage_from_element(
+                        get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
+                    ),
+                    type=BondType(p.ticker),
+                )
+                for p in positions
+                if p.ticker in valid_tickers
+            ]
+            return bonds_data
+        logger.warning(f"Empty Bonds in positions: {positions}")
+        return []
 
     @write_log
     def __get_positions(self, positions: list[PortfolioPosition]) -> list[PortfolioPosition]:
+        if not positions:
+            logger.warning(f"Empty positions: {positions}")
+            return []
         positions = sorted(
             positions,
             key=lambda x: get_money(x.current_price) * get_money(x.quantity),
             reverse=True,
         )
-        if not positions:
-            raise ValueError(f"Не найдены позиции {positions}")
         return positions
 
     @write_log

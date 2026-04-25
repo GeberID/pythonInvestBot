@@ -1,6 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from decimal import Decimal
 from enum import StrEnum
+from typing import Sequence
 
 from investbot.configs import BOND_FIX, BOND_FLOATER, BOND_LINKER
 
@@ -35,13 +36,13 @@ class BondInstrumentData(InstrumentData):
 
 @dataclass(frozen=True, slots=True)
 class InvestPortfolio:
-    etf_core: list[InstrumentData]
-    etfs: list[InstrumentData]
-    shares: list[InstrumentData]
-    bonds: list[BondInstrumentData]
-    free_money: Decimal
-    total_amount_bonds: Decimal
-    total_amount_etf: Decimal
-    total_amount_currencies: Decimal
-    total_amount_shares: Decimal
-    total_portfolio: Decimal
+    etf_core: Sequence[InstrumentData] = field(default_factory=tuple)
+    etfs: Sequence[InstrumentData] = field(default_factory=tuple)
+    shares: Sequence[InstrumentData] = field(default_factory=tuple)
+    bonds: Sequence[BondInstrumentData] = field(default_factory=tuple)
+    free_money: Decimal = Decimal(0)
+    total_amount_bonds: Decimal = Decimal(0)
+    total_amount_etf: Decimal = Decimal(0)
+    total_amount_currencies: Decimal = Decimal(0)
+    total_amount_shares: Decimal = Decimal(0)
+    total_portfolio: Decimal = Decimal(0)
