@@ -4,6 +4,7 @@ from enum import StrEnum
 from typing import Sequence
 
 from investbot.configs import BOND_FIX, BOND_FLOATER, BOND_LINKER
+from investbot.core.base_types import Money, Percentage
 
 
 class InstrumentType(StrEnum):
@@ -22,15 +23,15 @@ class BondType(StrEnum):
 @dataclass(frozen=True, slots=True)
 class InstrumentData:
     ticker: str
-    money: Decimal
-    daily_yield: Decimal
-    expected_yield: Decimal
-    percentage_of_portfolio: Decimal
+    money: Money
+    daily_yield: Money
+    expected_yield: Money
+    percentage_of_portfolio: Percentage
 
 
 @dataclass(frozen=True, slots=True)
 class BondInstrumentData(InstrumentData):
-    nkd: Decimal
+    nkd: Money
     type: BondType
 
 
@@ -40,9 +41,9 @@ class InvestPortfolio:
     etfs: Sequence[InstrumentData] = field(default_factory=tuple)
     shares: Sequence[InstrumentData] = field(default_factory=tuple)
     bonds: Sequence[BondInstrumentData] = field(default_factory=tuple)
-    free_money: Decimal = Decimal(0)
-    total_amount_bonds: Decimal = Decimal(0)
-    total_amount_etf: Decimal = Decimal(0)
-    total_amount_currencies: Decimal = Decimal(0)
-    total_amount_shares: Decimal = Decimal(0)
-    total_portfolio: Decimal = Decimal(0)
+    free_money: Money = Money(Decimal(0))
+    total_amount_bonds: Money = Money(Decimal(0))
+    total_amount_etf: Money = Money(Decimal(0))
+    total_amount_currencies: Money = Money(Decimal(0))
+    total_amount_shares: Money = Money(Decimal(0))
+    total_portfolio: Money = Money(Decimal(0))

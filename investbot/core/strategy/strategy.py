@@ -1,4 +1,3 @@
-from decimal import Decimal
 from typing import TypeVar, Sequence
 
 from investbot.configs import (
@@ -24,6 +23,7 @@ from investbot.core.portfolio.portfolio_models.portfolio_models import (
     InstrumentData,
     InvestPortfolio,
 )
+from investbot.core.base_types import Percentage
 from investbot.core.strategy.strategy_models import Discrepancy, StrategyConfig, TargetAllocation, Change
 
 etf = TargetAllocation(min_pct=ETF_MIN, middle_pct=ETF_TARGET, max_pct=ETF_MAX)
@@ -68,14 +68,16 @@ class StrategyAnalyzer:
         self,
         items: Sequence[T],
         target: TargetAllocation,
-        result_dict: dict[T, tuple[Decimal, Change]],
+        result_dict: dict[T, tuple[Percentage, Change]],
     ) -> None:
         for item in items:
             self.__set_discrepancy(result_dict, item, target)
 
     @staticmethod
-    def __set_discrepancy(discrepancy_dict: dict[T, tuple[Decimal, Change]], data: T, target: TargetAllocation) -> None:
+    def __set_discrepancy(
+        discrepancy_dict: dict[T, tuple[Percentage, Change]], data: T, target: TargetAllocation
+    ) -> None:
         if data.percentage_of_portfolio > target.max_pct:
-            discrepancy_dict[data] = (data.percentage_of_portfolio - target.middle_pct, Change.DOWN)
+            discrepancy_dict[data] = (Percentage(data.percentage_of_portfolio - target.middle_pct), Change.DOWN)
         elif data.percentage_of_portfolio < target.min_pct:
-            discrepancy_dict[data] = (target.middle_pct - data.percentage_of_portfolio, Change.UP)
+            discrepancy_dict[data] = (Percentage(target.middle_pct - data.percentage_of_portfolio), Change.UP)

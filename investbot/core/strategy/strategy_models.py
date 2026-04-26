@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from decimal import Decimal
 from enum import Enum, auto
 
 from investbot.core.portfolio.portfolio_models.portfolio_models import (
     BondInstrumentData,
     InstrumentData,
 )
+from investbot.core.base_types import Percentage
 
 
 class Change(Enum):
@@ -15,16 +15,16 @@ class Change(Enum):
 
 @dataclass
 class Discrepancy:
-    etf: dict[InstrumentData, tuple[Decimal, Change]]
-    shares: dict[InstrumentData, tuple[Decimal, Change]]
-    bonds: dict[BondInstrumentData, tuple[Decimal, Change]]
+    etf: dict[InstrumentData, tuple[Percentage, Change]]
+    shares: dict[InstrumentData, tuple[Percentage, Change]]
+    bonds: dict[BondInstrumentData, tuple[Percentage, Change]]
 
 
 @dataclass
 class TargetAllocation:
-    min_pct: Decimal
-    middle_pct: Decimal
-    max_pct: Decimal
+    min_pct: Percentage
+    middle_pct: Percentage
+    max_pct: Percentage
 
 
 @dataclass

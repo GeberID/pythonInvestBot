@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="fix bug">
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="move all portfolios to portfolio directory">
+      <change afterPath="$PROJECT_DIR$/investbot/core/base_types.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/formatter/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/adapters/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/formatter/portfolio_formatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/adapters/portfolio_formatter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/telegram_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/telegram_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/investbot/core/money_utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/money_utilities.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_adapters/tinkoff_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_adapters/tinkoff_portfolio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_models/portfolio_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_models/portfolio_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/investbot/core/strategy/strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/strategy/strategy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/investbot/core/strategy/strategy_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/strategy/strategy_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/test_invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_invest_portfolio.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,33 +54,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_bonds.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_shares.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test.test_invest_portfolio.test_portfolio_total_calculation.executor&quot;: &quot;Run&quot;,
-    &quot;Python.core_main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.core_main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;ToolWindow.OllamAssist.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;fr.baretto.ollamassist.setting.OllamassistSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_bonds.executor": "Run",
+    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_shares.executor": "Run",
+    "Python tests.Python tests for test.test_invest_portfolio.test_portfolio_total_calculation.executor": "Run",
+    "Python.core_main (1).executor": "Run",
+    "Python.core_main.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "ToolWindow.OllamAssist.ShowToolbar": "false",
+    "git-widget-placeholder": "develop",
+    "ignore.virus.scanning.warn.message": "true",
+    "settings.editor.selected.configurable": "fr.baretto.ollamassist.setting.OllamassistSettingsConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core\portfolio" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core\adapters" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot" />
       <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core\domain\strategy" />
-      <recent name="C:\Users\Sanya\PycharmProjects\InvestBot\investbot\core\domain" />
     </key>
   </component>
   <component name="RunManager" selected="Python.core_main (1)">
@@ -462,7 +465,23 @@
       <option name="project" value="LOCAL" />
       <updated>1777141602784</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="renaming directories">
+      <option name="closed" value="true" />
+      <created>1777229646624</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1777229646624</updated>
+    </task>
+    <task id="LOCAL-00029" summary="move all portfolios to portfolio directory">
+      <option name="closed" value="true" />
+      <created>1777229865862</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1777229865862</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -476,7 +495,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/develop" />
+                        <option value="develop" />
                       </list>
                     </value>
                   </entry>
@@ -489,8 +508,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="first bot version" />
-    <MESSAGE value="fix round" />
     <MESSAGE value="add print_all_shares, print_all_bonds" />
     <MESSAGE value="fix work" />
     <MESSAGE value="fix local into log decorator" />
@@ -514,19 +531,21 @@
     <MESSAGE value="small fix logic" />
     <MESSAGE value="add empty list" />
     <MESSAGE value="fix bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
+    <MESSAGE value="renaming directories" />
+    <MESSAGE value="move all portfolios to portfolio directory" />
+    <option name="LAST_COMMIT_MESSAGE" value="move all portfolios to portfolio directory" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test/test_invest_portfolio.py</url>
-          <line>16</line>
+          <line>21</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test/test_invest_portfolio.py</url>
-          <line>29</line>
+          <line>34</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -535,14 +554,9 @@
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/investbot/core/adapters/tinkoff_portfolio.py</url>
-          <line>125</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/investbot/core/adapters/tinkoff_portfolio.py</url>
-          <line>112</line>
-          <option name="timeStamp" value="39" />
+          <url>file://$PROJECT_DIR$/investbot/core_main.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

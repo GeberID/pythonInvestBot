@@ -14,6 +14,7 @@ from investbot.core.portfolio.portfolio_models.portfolio_models import (
     InstrumentData,
     InvestPortfolio,
 )
+from investbot.core.base_types import Money
 
 Position_data = TypeVar("Position_data")
 T = TypeVar("T", bound=InstrumentData)
@@ -31,12 +32,12 @@ class TinkoffBrokerAdapter:
     __etfs: list[InstrumentData]
     __shares: list[InstrumentData]
     __bonds: list[BondInstrumentData]
-    __free_money: Decimal
-    __total_amount_bonds: Decimal
-    __total_amount_etf: Decimal
-    __total_amount_currencies: Decimal
-    __total_amount_shares: Decimal
-    __total_portfolio: Decimal
+    __free_money: Money
+    __total_amount_bonds: Money
+    __total_amount_etf: Money
+    __total_amount_currencies: Money
+    __total_amount_shares: Money
+    __total_portfolio: Money
 
     def __init__(self, portfolio: PortfolioResponse):
         self.__portfolio = portfolio
@@ -51,7 +52,7 @@ class TinkoffBrokerAdapter:
         self.__total_amount_etf = get_money(self.__portfolio.total_amount_etf)
         self.__total_amount_currencies = get_money(self.__portfolio.total_amount_currencies)
         self.__total_amount_shares = get_money(self.__portfolio.total_amount_shares)
-        self.__total_portfolio = (
+        self.__total_portfolio = Money(
             self.__total_amount_bonds
             + self.__total_amount_etf
             + self.__total_amount_currencies
@@ -81,11 +82,11 @@ class TinkoffBrokerAdapter:
         )
 
     @write_log
-    def __get_free_money(self) -> Decimal:
+    def __get_free_money(self) -> Money:
         positions = self.__positions[InstrumentType.CURRENCY]
         temp_free_money = next((element for element in positions if element.ticker == RUB_TICKER), None)
         if temp_free_money is None:
-            return Decimal(0)
+            return Money(Decimal(0))
         return get_money(temp_free_money.quantity)
 
     @write_log
@@ -114,12 +115,12 @@ class TinkoffBrokerAdapter:
             bonds_data: list[BondInstrumentData] = [
                 BondInstrumentData(
                     ticker=p.ticker,
-                    money=get_money(p.current_price) * get_money(p.quantity),
+                    money=Money(get_money(p.current_price) * get_money(p.quantity)),
                     nkd=get_money(p.current_nkd),
                     daily_yield=get_money(p.daily_yield),
                     expected_yield=get_money(p.expected_yield),
                     percentage_of_portfolio=get_percentage_from_element(
-                        get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
+                        Money(get_money(p.current_price) * get_money(p.quantity)), self.__total_portfolio
                     ),
                     type=BondType(p.ticker),
                 )
@@ -146,10 +147,10 @@ class TinkoffBrokerAdapter:
     def __create_instrument(self, p: PortfolioPosition, instrument_class: Type[T]) -> T:
         return instrument_class(
             ticker=p.ticker,
-            money=get_money(p.current_price) * get_money(p.quantity),
+            money=Money(get_money(p.current_price) * get_money(p.quantity)),
             daily_yield=get_money(p.daily_yield),
             expected_yield=get_money(p.expected_yield),
             percentage_of_portfolio=get_percentage_from_element(
-                get_money(p.current_price) * get_money(p.quantity), self.__total_portfolio
+                Money(get_money(p.current_price) * get_money(p.quantity)), self.__total_portfolio
             ),
         )
