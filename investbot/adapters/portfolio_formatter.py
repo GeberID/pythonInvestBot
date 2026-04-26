@@ -2,7 +2,11 @@ from decimal import Decimal
 from typing import Protocol
 
 from investbot.core.log import write_log
-from investbot.core.portfolio_models.portfolio_models import BondInstrumentData, InstrumentData, InvestPortfolio
+from investbot.core.portfolio.portfolio_models.portfolio_models import (
+    BondInstrumentData,
+    InstrumentData,
+    InvestPortfolio,
+)
 
 
 class Formatter(Protocol):

@@ -19,7 +19,7 @@ from investbot.configs import (
     BOND_LINKER_MAX,
 )
 from investbot.core.log import write_log
-from investbot.core.portfolio_models.portfolio_models import (
+from investbot.core.portfolio.portfolio_models.portfolio_models import (
     BondType,
     InstrumentData,
     InvestPortfolio,

@@ -3,7 +3,7 @@ from typing import NewType
 
 import investbot.core.api.tinkoff_api as api
 from investbot.adapters.portfolio_formatter import TelegramPortfolioFormatter
-from investbot.core.portfolio_adapters.tinkoff_portfolio import TinkoffBrokerAdapter
+from investbot.core.portfolio.portfolio_adapters.tinkoff_portfolio import TinkoffBrokerAdapter
 from investbot.core.strategy.strategy import StrategyAnalyzer, strategy
 
 AccountId = NewType("AccountId", str)

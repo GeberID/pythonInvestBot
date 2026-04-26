@@ -7,7 +7,7 @@ from t_tech.invest import PortfolioResponse, PortfolioPosition
 from investbot.configs import RUB_TICKER, ETF_CORE_TICKER
 from investbot.core.log import write_log, logger
 from investbot.core.money_utilities import get_money, get_percentage_from_element
-from investbot.core.portfolio_models.portfolio_models import (
+from investbot.core.portfolio.portfolio_models.portfolio_models import (
     InstrumentType,
     BondInstrumentData,
     BondType,

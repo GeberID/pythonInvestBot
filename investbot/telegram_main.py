@@ -10,8 +10,8 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from investbot.configs import TELEGRAM_TOKEN, PROXY_TELEGRAM
-from investbot.core.portfolio_models.portfolio_models import InvestPortfolio
-from investbot.core.portfolio_adapters.tinkoff_portfolio import TinkoffBrokerAdapter
+from investbot.core.portfolio.portfolio_models.portfolio_models import InvestPortfolio
+from investbot.core.portfolio.portfolio_adapters.tinkoff_portfolio import TinkoffBrokerAdapter
 from investbot.core.log import write_log
 from investbot.core.strategy.strategy import StrategyAnalyzer, strategy
 from investbot.adapters.portfolio_formatter import TelegramPortfolioFormatter
