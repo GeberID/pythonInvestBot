@@ -2,9 +2,9 @@ import asyncio
 from typing import NewType
 
 import investbot.core.api.tinkoff_api as api
-from investbot.formatter.portfolio_formatter import TelegramPortfolioFormatter
-from investbot.core.adapters.tinkoff_portfolio import TinkoffBrokerAdapter
-from investbot.core.domain.strategy.strategy import StrategyAnalyzer, strategy
+from investbot.adapters.portfolio_formatter import TelegramPortfolioFormatter
+from investbot.core.portfolio_adapters.tinkoff_portfolio import TinkoffBrokerAdapter
+from investbot.core.strategy.strategy import StrategyAnalyzer, strategy
 
 AccountId = NewType("AccountId", str)
 

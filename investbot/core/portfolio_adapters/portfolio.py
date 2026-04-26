@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from investbot.core.domain.portfolio_models import InvestPortfolio
+from investbot.core.portfolio_models.portfolio_models import InvestPortfolio
 
 
 class BrokerClient(Protocol):

@@ -19,12 +19,12 @@ from investbot.configs import (
     BOND_LINKER_MAX,
 )
 from investbot.core.log import write_log
-from investbot.core.domain.portfolio_models import (
+from investbot.core.portfolio_models.portfolio_models import (
     BondType,
     InstrumentData,
     InvestPortfolio,
 )
-from investbot.core.domain.strategy.strategy_models import Discrepancy, StrategyConfig, TargetAllocation, Change
+from investbot.core.strategy.strategy_models import Discrepancy, StrategyConfig, TargetAllocation, Change
 
 etf = TargetAllocation(min_pct=ETF_MIN, middle_pct=ETF_TARGET, max_pct=ETF_MAX)
 shares = TargetAllocation(min_pct=SHARE_MIN, middle_pct=SHARE_TARGET, max_pct=SHARE_MAX)
