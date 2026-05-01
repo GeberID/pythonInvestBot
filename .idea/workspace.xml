@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="work with get_lots_for_working">
+    <list default="true" id="35235b55-a5cc-4b0a-b207-b450a290876e" name="Changes" comment="simplify method __set_discrepancy">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/adapters/portfolio_formatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/adapters/portfolio_formatter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_adapters/tinkoff_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_adapters/tinkoff_portfolio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_models/portfolio_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/portfolio/portfolio_models/portfolio_models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/investbot/core/strategy/strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/strategy/strategy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core/strategy/strategy_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core/strategy/strategy_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/investbot/core_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/investbot/core_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_invest_portfolio.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_invest_portfolio.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -489,7 +485,23 @@
       <option name="project" value="LOCAL" />
       <updated>1777231994443</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="work with get_lots_for_working">
+      <option name="closed" value="true" />
+      <created>1777662787351</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1777662787351</updated>
+    </task>
+    <task id="LOCAL-00032" summary="simplify method __set_discrepancy">
+      <option name="closed" value="true" />
+      <created>1777667471585</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1777667471585</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -516,7 +528,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix local into log decorator" />
     <MESSAGE value="mini fix" />
     <MESSAGE value="refactoring and add dataclasses" />
     <MESSAGE value="small fix" />
@@ -541,7 +552,8 @@
     <MESSAGE value="move all portfolios to portfolio directory" />
     <MESSAGE value="add base_types.py" />
     <MESSAGE value="work with get_lots_for_working" />
-    <option name="LAST_COMMIT_MESSAGE" value="work with get_lots_for_working" />
+    <MESSAGE value="simplify method __set_discrepancy" />
+    <option name="LAST_COMMIT_MESSAGE" value="simplify method __set_discrepancy" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
