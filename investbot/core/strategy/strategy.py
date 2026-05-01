@@ -87,7 +87,7 @@ class StrategyAnalyzer:
         self, discrepancy_dict: dict[T, tuple[int, Change]], data: T, target: TargetAllocation, total_portfolio: Money
     ) -> None:
         if isinstance(data, BondInstrumentData):
-            Money(data.one_instr_money + data.nkd)
+            instrument_money = Money(data.one_instr_money + data.nkd)
         else:
             instrument_money = data.one_instr_money
 
