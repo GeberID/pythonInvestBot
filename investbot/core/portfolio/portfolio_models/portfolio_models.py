@@ -23,10 +23,12 @@ class BondType(StrEnum):
 @dataclass(frozen=True, slots=True)
 class InstrumentData:
     ticker: str
-    money: Money
+    full_inst_money: Money
+    one_instr_money: Money
     daily_yield: Money
     expected_yield: Money
     percentage_of_portfolio: Percentage
+    lot: int
 
 
 @dataclass(frozen=True, slots=True)

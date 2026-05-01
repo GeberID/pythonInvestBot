@@ -18,7 +18,7 @@ async def main() -> None:
     print(formater.print_all_shares())
     print(formater.print_all_bonds())
     analyzer = StrategyAnalyzer(strategy)
-    print(analyzer.analyze(portfolio))
+    analyzer.analyze(portfolio)
 
 
 if __name__ == "__main__":

@@ -84,7 +84,7 @@ class TelegramPortfolioFormatter:
         e_sign = "+" if share.expected_yield > 0 else ""
         return (
             f"<code>{share.ticker:<5}</code>|"
-            f"{share.money:>7.0f}|"
+            f"{share.full_inst_money:>7.0f}|"
             f"{d_sign}{share.daily_yield:>5.0f}|"
             f"{e_sign}{share.expected_yield:>5.0f}|"
             f"{share.percentage_of_portfolio:>4.1f}%"
@@ -95,5 +95,5 @@ class TelegramPortfolioFormatter:
         e_sign = "+" if bond.expected_yield > 0 else ""
         return (
             f"<code>{bond.ticker:12} | {bond.percentage_of_portfolio:>5.2f}%</code>\n"
-            f"<code>└ {bond.money:>7.0f} | {d_sign}{bond.daily_yield:>4.0f} | {e_sign}{bond.expected_yield:>5.0f} | {bond.nkd:>4.0f}</code>"
+            f"<code>└ {bond.full_inst_money:>7.0f} | {d_sign}{bond.daily_yield:>4.0f} | {e_sign}{bond.expected_yield:>5.0f} | {bond.nkd:>4.0f}</code>"
         )

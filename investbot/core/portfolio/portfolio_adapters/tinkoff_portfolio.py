@@ -115,7 +115,8 @@ class TinkoffBrokerAdapter:
             bonds_data: list[BondInstrumentData] = [
                 BondInstrumentData(
                     ticker=p.ticker,
-                    money=Money(get_money(p.current_price) * get_money(p.quantity)),
+                    full_inst_money=Money(get_money(p.current_price) * get_money(p.quantity)),
+                    one_instr_money=get_money(p.current_price),
                     nkd=get_money(p.current_nkd),
                     daily_yield=get_money(p.daily_yield),
                     expected_yield=get_money(p.expected_yield),
@@ -123,6 +124,7 @@ class TinkoffBrokerAdapter:
                         Money(get_money(p.current_price) * get_money(p.quantity)), self.__total_portfolio
                     ),
                     type=BondType(p.ticker),
+                    lot=int(get_money(p.quantity) / get_money(p.quantity_lots)),
                 )
                 for p in positions
                 if p.ticker in valid_tickers
@@ -147,10 +149,12 @@ class TinkoffBrokerAdapter:
     def __create_instrument(self, p: PortfolioPosition, instrument_class: Type[T]) -> T:
         return instrument_class(
             ticker=p.ticker,
-            money=Money(get_money(p.current_price) * get_money(p.quantity)),
+            full_inst_money=Money(get_money(p.current_price) * get_money(p.quantity)),
+            one_instr_money=get_money(p.current_price),
             daily_yield=get_money(p.daily_yield),
             expected_yield=get_money(p.expected_yield),
             percentage_of_portfolio=get_percentage_from_element(
                 Money(get_money(p.current_price) * get_money(p.quantity)), self.__total_portfolio
             ),
+            lot=int(get_money(p.quantity) / get_money(p.quantity_lots)),
         )

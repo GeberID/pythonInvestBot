@@ -15,9 +15,9 @@ class Change(Enum):
 
 @dataclass
 class Discrepancy:
-    etf: dict[InstrumentData, tuple[Percentage, Change]]
-    shares: dict[InstrumentData, tuple[Percentage, Change]]
-    bonds: dict[BondInstrumentData, tuple[Percentage, Change]]
+    etf: dict[InstrumentData, tuple[int, Change]]
+    shares: dict[InstrumentData, tuple[int, Change]]
+    bonds: dict[BondInstrumentData, tuple[int, Change]]
 
 
 @dataclass
