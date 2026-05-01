@@ -73,7 +73,6 @@ class StrategyAnalyzer:
         )
         return self.__discrepancy
 
-    @write_log
     def __analyze_group(
         self,
         items: Sequence[T],
@@ -88,27 +87,18 @@ class StrategyAnalyzer:
         self, discrepancy_dict: dict[T, tuple[int, Change]], data: T, target: TargetAllocation, total_portfolio: Money
     ) -> None:
         if isinstance(data, BondInstrumentData):
-            if data.percentage_of_portfolio > target.max_pct:
-                percentage_inst = Percentage(data.percentage_of_portfolio - target.middle_pct)
-                lots = self.__get_lots_for_working(
-                    data.one_instr_money, data.lot, percentage_inst, total_portfolio, data.nkd
-                )
-                discrepancy_dict[data] = (lots, Change.DOWN)
-            elif data.percentage_of_portfolio < target.min_pct:
-                percentage_inst = Percentage(target.middle_pct - data.percentage_of_portfolio)
-                lots = self.__get_lots_for_working(
-                    data.one_instr_money, data.lot, percentage_inst, total_portfolio, data.nkd
-                )
-                discrepancy_dict[data] = (lots, Change.UP)
+            Money(data.one_instr_money + data.nkd)
         else:
-            if data.percentage_of_portfolio > target.max_pct:
-                percentage_inst = Percentage(data.percentage_of_portfolio - target.middle_pct)
-                lots = self.__get_lots_for_working(data.one_instr_money, data.lot, percentage_inst, total_portfolio)
-                discrepancy_dict[data] = (lots, Change.DOWN)
-            elif data.percentage_of_portfolio < target.min_pct:
-                percentage_inst = Percentage(target.middle_pct - data.percentage_of_portfolio)
-                lots = self.__get_lots_for_working(data.one_instr_money, data.lot, percentage_inst, total_portfolio)
-                discrepancy_dict[data] = (lots, Change.UP)
+            instrument_money = data.one_instr_money
+
+        if data.percentage_of_portfolio > target.max_pct:
+            percentage_inst = Percentage(data.percentage_of_portfolio - target.middle_pct)
+            lots = self.__get_lots_for_working(instrument_money, data.lot, percentage_inst, total_portfolio)
+            discrepancy_dict[data] = (lots, Change.DOWN)
+        elif data.percentage_of_portfolio < target.min_pct:
+            percentage_inst = Percentage(target.middle_pct - data.percentage_of_portfolio)
+            lots = self.__get_lots_for_working(instrument_money, data.lot, percentage_inst, total_portfolio)
+            discrepancy_dict[data] = (lots, Change.UP)
 
     def __get_lots_for_working(
         self,
@@ -116,7 +106,6 @@ class StrategyAnalyzer:
         inst_lot: int,
         discrepancy_percentage: Percentage,
         total_portfolio: Money,
-        nkd: Money = Money(Decimal("0.00")),
     ) -> int:
         target_money_delta = total_portfolio * (discrepancy_percentage / Decimal("100"))
-        return int(((target_money_delta / current_inst_money + nkd) / inst_lot).to_integral_value(rounding=ROUND_DOWN))
+        return int(((target_money_delta / current_inst_money) / inst_lot).to_integral_value(rounding=ROUND_DOWN))
